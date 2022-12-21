@@ -89,7 +89,7 @@ class EmotEmotionTwitterDataModule(BaseDataModule):
 
         df['text_id'] = df.index
         df['text'] = df['tweet']
-        df = df.drop(['tweet', 'label'])
+        df = df.drop(['tweet', 'label'], axis=1)
 
         texts_df = df.loc[:, ['text_id', 'text', 'split']]
         annotations_df = df.loc[:, ['text_id'].extend(ANNOTATION_COLUMNS)]

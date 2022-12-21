@@ -80,7 +80,6 @@ class BaseDataModule(LightningDataModule):
         if self.major_voting:
             self.compute_major_votes()
         
-        print(self.data, self.annotations)
 
         data = self.data
         annotations = self.annotations
@@ -196,7 +195,6 @@ class BaseDataModule(LightningDataModule):
         ]
         X = df.loc[:, ["text_id", "annotator_id"]]
         y = df[self.annotation_column]
-        print(X, y)
 
         X["text_id"] = X["text_id"].apply(lambda r_id: self.text_id_idx_dict[r_id])
         X["annotator_id"] = X["annotator_id"].apply(
