@@ -81,6 +81,7 @@ TRANSFORMER_MODEL_STRINGS = {
     'herbert': 'allegro/herbert-base-cased',
     'polish-distilroberta': 'sdadas/polish-distilroberta',
     'polish-roberta': 'sdadas/polish-roberta-base-v2',
+    'indo-roberta': 'flax-community/indonesian-roberta-base',
     'labse': 'sentence-transformers/LaBSE',
     'mpnet': 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2',
     'xtremedistil-l6-h256': 'microsoft/xtremedistil-l6-h256-uncased',
