@@ -10,20 +10,13 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
 from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
-from multitask_nlp.datasets.indonlu.emot_emotion_twitter import EmotEmotionTwitterDataModule
 from multitask_nlp.datasets.indonlu.facqa_qa_factoid_itb import FacqaQaFactoidItbDataModule
-from multitask_nlp.datasets.indonlu.hoasa_absa_airy import HoasaAbsaAiryDataModule
 from multitask_nlp.datasets.indonlu.wrete_entailment_ui import WreteEntailmentUiDataModule
 from multitask_nlp.datasets.goemotions.goemotions import GoEmotionsDataModule
 from multitask_nlp.datasets.studemo.studemo import StudEmoDataModule
 from multitask_nlp.datasets.snli.snli import SNLI_DataModule
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
-from multitask_nlp.datasets.klej.nkjp_ner import NKJP_NER_DataModule
-from multitask_nlp.datasets.aspectemo.aspectemo import ApectemoDataModule
-from multitask_nlp.datasets.ccpl.ccpl import CCPL_DataModule
-from multitask_nlp.datasets.indonlu.nergrit_ner_grit import NerGritDataModule
-from multitask_nlp.datasets.indonlu.keps_keyword_extraction_prosa import KepsKeywordExtractionProsaDataModule
 from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
 from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
 from multitask_nlp.datasets.kpwr_n82.kpwr_n82 import KPWR_N82_DataModule 
