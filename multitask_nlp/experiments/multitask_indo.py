@@ -1,5 +1,5 @@
 import os
-from copy import copy
+from copy import copy, deepcopy
 from itertools import product
 from typing import List
 
@@ -9,23 +9,18 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
+
 from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
 from multitask_nlp.datasets.indonlu.emot_emotion_twitter import EmotEmotionTwitterDataModule
 from multitask_nlp.datasets.indonlu.facqa_qa_factoid_itb import FacqaQaFactoidItbDataModule
 from multitask_nlp.datasets.indonlu.hoasa_absa_airy import HoasaAbsaAiryDataModule
 from multitask_nlp.datasets.indonlu.wrete_entailment_ui import WreteEntailmentUiDataModule
-from multitask_nlp.datasets.goemotions.goemotions import GoEmotionsDataModule
-from multitask_nlp.datasets.studemo.studemo import StudEmoDataModule
-from multitask_nlp.datasets.multinli.multinli import MultiNLIDataModule
-from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
-from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
-from multitask_nlp.datasets.klej.nkjp_ner import NKJP_NER_DataModule
-from multitask_nlp.datasets.aspectemo.aspectemo import ApectemoDataModule
-from multitask_nlp.datasets.ccpl.ccpl import CCPL_DataModule
 from multitask_nlp.datasets.indonlu.nergrit_ner_grit import NerGritDataModule
 from multitask_nlp.datasets.indonlu.keps_keyword_extraction_prosa import KepsKeywordExtractionProsaDataModule
 from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
 from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
+from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
+from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 
 from multitask_nlp.learning.train_test import train_test
 from multitask_nlp.models import models as models_dict
@@ -38,49 +33,42 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
-use_cuda = False
-wandb_project_name = 'MTL_test_indo'
+use_cuda = True
+wandb_project_name = 'MTL_Indo_IndoRoberta'
 
 RANDOM_SEED = 2022
 
-stl_experiments = False
+stl_experiments = True
 
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['roberta']  # ['microsoft/xtremedistil-l6-h256-uncased']  # ['bert']
-    rep_num = 1
+    model_names = ['indo-roberta']
+    rep_num = 5
 
-    multitask_dataset_types = ['round_robin', 'sampling', 'proportional_sampling',
-                               'annealing_sampling']
-    loss_args_list = [(True, None), (False, None)]
+    loss_args_list = [(False, None)]
+    multitask_dataset_types = ['sampling']
 
-    max_length = 128
-    batch_size = 8
-    epochs = 4
+    max_length = 512
+    batch_size = 16
+    epochs = 10
     lr_rate = 1e-5
     weight_decay = 0.01
     lr_scheduling = True
     warmup_proportion = 0.1
-    
-    accelerator = 'gpu'
-    devices=1
 
-    # trainer_kwargs = None
     trainer_kwargs = {
-        'accumulate_grad_batches': 4,
-        'accelerator': accelerator,
-        'devices': devices
+        'accumulate_grad_batches': 2
     }
     custom_callbacks: List[pl.Callback] = [
         ValidDatasetResetter()
     ]
 
-    steps_in_epoch_list = [230]
+    steps_in_epoch_list = [6500]
     total_steps_list = [s * epochs for s in steps_in_epoch_list]
 
     # proportional sampling arguments
-    alpha_list = [0.75]
+    alpha_list = [0.2]
 
     # dynamic temperature arguments
     N_list = [3]
@@ -88,26 +76,21 @@ def run_experiments():
     T_max_list = [5]
 
     task_datamodules_setup = {
-        #IndonesianEmotionDataModule: {"batch_size": batch_size, "language": "id"},
-        # GoEmotionsDataModule: {"batch_size": batch_size},
-        #CasaAbsaProsaDataModule: {"batch_size": batch_size, "language": "id"},
-        #EmotEmotionTwitterDataModule: {"batch_size": batch_size, "language": "id"},
-         # FacqaQaFactoidItbDataModule: {"batch_size": batch_size, "language": "id"},
-         # HoasaAbsaAiryDataModule: {"batch_size": batch_size, "language": "id"},
-        # WreteEntailmentUiDataModule: {"batch_size": batch_size, "language": "id"},
-         #StudEmoDataModule: {"batch_size": batch_size},
-         # ApectemoDataModule: {"batch_size": batch_size},
-         # CCPL_DataModule: {"batch_size": batch_size},
-         # NerpNerProsaDataModule: {"batch_size": batch_size},
-         #NKJP_NER_DataModule:  {"batch_size": batch_size},
-         SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
-    }
-    task_to_not_log_detailed = ['GoEmotions']
+        CasaAbsaProsaDataModule: {"batch_size": batch_size},
+        EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
+        HoasaAbsaAiryDataModule: {"batch_size": batch_size},
+        WreteEntailmentUiDataModule: {"batch_size": batch_size },
+        NerGritDataModule: {"batch_size": batch_size},
+        KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
+        NerpNerProsaDataModule: {"batch_size": batch_size},
+        SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
+        IndonesianEmotionDataModule: {"batch_size": batch_size},
 
+    }
     lightning_model_kwargs = {
         'lr_scheduling': lr_scheduling,
-        'warmup_proportion': warmup_proportion,
-        'tasks_to_not_log_detailed_metrics': task_to_not_log_detailed
+        'warmup_proportion': warmup_proportion
     }
 
     tasks_datamodules = []
@@ -129,7 +112,7 @@ def run_experiments():
 
     seed_everything()
     for model_type, model_name, loss_args in \
-        product(model_types, model_names, loss_args_list):
+            product(model_types, model_names, loss_args_list):
         model_cls = models_dict[model_type]
 
         uncertainty_loss, scaling_type = loss_args
@@ -214,7 +197,7 @@ def run_experiments():
                     mtl_extra_callbacks.append(None)
 
                 for multitask_dataset_args, mtl_extra_callback in \
-                    product(multitask_dataset_args_list, mtl_extra_callbacks):
+                        product(multitask_dataset_args_list, mtl_extra_callbacks):
 
                     mtl_custom_callbacks = copy(custom_callbacks)
                     if mtl_extra_callback is not None:
@@ -244,6 +227,24 @@ def run_experiments():
                         lightning_model_kwargs=used_lightning_model_kwargs,
                         trainer_kwargs=trainer_kwargs
                     )
+
+                    # Fine-tuning of MTL model for a single task
+                    for data_module in tasks_datamodules:
+                        model_to_finetune = deepcopy(model)
+
+                        hparams_copy = copy(hparams)
+                        hparams_copy["learning_kind"] = 'MTL Finetuning'
+                        hparams_copy["dataset"] = data_module.task_name
+                        hparams_copy["mt_dataset_type"] = multitask_dataset_type
+                        hparams_copy.update(multitask_dataset_args)
+
+                        run_training(
+                            model_to_finetune, data_module, hparams_copy,
+                            epochs, lr_rate, weight_decay,
+                            custom_callbacks=custom_callbacks,
+                            lightning_model_kwargs=lightning_model_kwargs,
+                            trainer_kwargs=trainer_kwargs
+                        )
 
 
 def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, custom_callbacks,
