@@ -1,0 +1,4 @@
+outs:
+- md5: 4db5b22d0283add6c4fbc774922d03d2
+  size: 65620
+  path: annotations_train.csv

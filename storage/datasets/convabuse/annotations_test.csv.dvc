@@ -1,0 +1,4 @@
+outs:
+- md5: 7b80103b07955dc823d40f752eb2c6b3
+  size: 19337
+  path: annotations_test.csv

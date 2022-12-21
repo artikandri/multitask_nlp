@@ -1,0 +1,4 @@
+outs:
+- md5: 9e8f5c5785c536864d1f879db86ccfd1
+  size: 5372370
+  path: all.text.train.pl.txt

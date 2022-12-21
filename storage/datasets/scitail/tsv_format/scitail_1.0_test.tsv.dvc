@@ -1,0 +1,4 @@
+outs:
+- md5: 47c0a25d9c17cfeb8d27c53ba60803a9
+  size: 391133
+  path: scitail_1.0_test.tsv

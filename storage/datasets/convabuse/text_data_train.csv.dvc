@@ -1,0 +1,4 @@
+outs:
+- md5: a6f4a781a7759c6062a6b8dafa74f8c4
+  size: 301686
+  path: text_data_train.csv

@@ -1,0 +1,6 @@
+[core]
+    remote = my_storage
+['remote "jan_storage"']
+    url = gdrive://1m59u1-41x3TnlUvmvwk3Zv9v66u0bH0a
+['remote "my_storage"']
+    url = gdrive://1pqMK2l9_z0mZZ-NFMpyBCwytbmA_ewi8

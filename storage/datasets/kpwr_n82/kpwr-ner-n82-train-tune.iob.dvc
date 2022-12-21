@@ -1,0 +1,4 @@
+outs:
+- md5: 1db28924fc51cfb71aa77ec063ce9a54
+  size: 6719818
+  path: kpwr-ner-n82-train-tune.iob

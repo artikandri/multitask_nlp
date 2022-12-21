@@ -1,0 +1,4 @@
+outs:
+- md5: 73f8e0a282f06dbcc62af66df3334f4e
+  size: 2247779
+  path: kpwr-ner-n82-test.iob

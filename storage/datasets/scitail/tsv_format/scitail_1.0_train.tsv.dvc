@@ -1,0 +1,4 @@
+outs:
+- md5: 8691604e8412ac0200cb4fafb052decd
+  size: 4398698
+  path: scitail_1.0_train.tsv

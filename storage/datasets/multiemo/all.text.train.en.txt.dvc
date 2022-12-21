@@ -1,0 +1,4 @@
+outs:
+- md5: 674def6e78f46c3960d1a9b835d30b19
+  size: 5215265
+  path: all.text.train.en.txt
