@@ -224,3 +224,6 @@ storage/checkpoints
 # poetry installation
 poetry.lock
 pyproject.toml
+
+# vscode
+.vscode/

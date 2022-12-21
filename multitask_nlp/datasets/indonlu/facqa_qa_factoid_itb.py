@@ -1,4 +1,5 @@
 from typing import List, Tuple
+from enum import IntEnum
 
 import pandas as pd
 import ast
@@ -6,6 +7,16 @@ import ast
 from multitask_nlp.datasets.base_datamodule import BaseDataModule
 from multitask_nlp.settings import FACQA_QA_FACTOID_ITB_DATA
 
+class Labels(IntEnum):
+    I = 0
+    O = 1
+    B = 2
+
+_CLASS_MAPPING = {
+    "I": Labels.I,
+    "O": Labels.O,
+    "B": Labels.B,
+}
 
 class FacqaQaFactoidItbDataModule(BaseDataModule):
     def __init__(
@@ -15,9 +26,8 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         super().__init__(**kwargs)
 
         self.data_dir = FACQA_QA_FACTOID_ITB_DATA
-        self.annotation_column = ['seq_label']
-        self.text_column = 'question'
-        self.text_2_column = 'passage'
+        self.annotation_column = ['ner_tags']
+        self.text_column = 'passage_text'
 
         self.train_split_names = ['train']
         self.val_split_names = ['valid']
@@ -25,7 +35,7 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
 
     @property
     def class_dims(self):
-        return [len(label_map) for label_map in self.label_maps]
+        return [len(label_map) for label_map in self.label_maps] * 1
 
     @property
     def task_name(self):
@@ -40,19 +50,19 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         return self.data[self.text_column].to_list()
 
     def prepare_data(self) -> None:
-        text_ids, texts, texts_2, labels, splits = self._get_data_from_split_files()
+        df = self._get_data_from_split_files()
         self.data = pd.DataFrame({
-            'text_id': text_ids,
-            self.text_column: texts,
-            self.text_2_column: texts_2,
-            'split': splits,
+            'text_id': df['text_id'],
+            self.text_column: df['passage_text'],
+            'split': df['splits'],
         })
-
+        df['seq_label'] = df['seq_label'].apply(lambda row : [i.strip() for i in row[1:-1]])
+        labels  = df['seq_label'].values.tolist()
         label_map = {label: i for i, label in enumerate(self.get_labels())}
-        labels = [[label_map[t] for t in tag[0]] for tag in labels]
+        labels = list(map(lambda label: list((pd.Series(label)).map(_CLASS_MAPPING)), labels))
 
         self.annotations = pd.DataFrame({
-            'text_id': text_ids,
+            'text_id': df['text_id'],
             'annotator_id': 0,
             'ner_tags': labels
         })
@@ -71,18 +81,16 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         return df
 
     def _get_data_from_split_files(self) -> Tuple[List, ...]:
-        text_ids, texts, texts_2, labels, splits = pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
-
+        master_df = pd.DataFrame()
         for index, split_name in enumerate(['train_preprocess', 'valid_preprocess', 'test_preprocess']):
+            split = split_name.split("_")[0]
             df = pd.read_csv(self.data_dir / f'{split_name}.csv')
             columns = df.columns
             df = self._parse_list(df, columns)
-            df['text_id'] =  str(index)+ "_" + df.index.astype(str)
-            df['splits'] = split_name
-            text_ids = pd.concat([text_ids, df['text_id']])
-            texts = pd.concat([texts, df['question']])
-            texts_2 = pd.concat([texts_2, df['passage']])
-            labels = pd.concat([labels, df['seq_label']])
-            splits = pd.concat([splits, df['splits']])
+            df['question_text'] = df['question'].apply(lambda row: (" ".join(row)))
+            df['passage_text'] = df['passage'].apply(lambda row: (" ".join(row)))
+            df['text_id'] =  split+"_"+str(index)+ "_" + df.index.astype(str)
+            df['splits'] = split
+            master_df = pd.concat([master_df, df])
 
-        return text_ids.values.tolist(), texts.values.tolist(), texts_2.values.tolist(), labels.values.tolist(), splits.values.tolist()
+        return master_df

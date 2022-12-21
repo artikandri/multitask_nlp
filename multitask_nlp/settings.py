@@ -62,6 +62,12 @@ HOASA_ABSA_AIRY_DATA = INDONLU_DIR / 'hoasa_absa_airy'
 FACQA_QA_FACTOID_ITB_DATA = INDONLU_DIR / 'facqa_qa_factoid_itb'
 WRETE_ENTAILMENT_DATA = INDONLU_DIR / 'wrete_entailment_ui'
 EMOT_EMOTION_TWITTER_DATA = INDONLU_DIR / 'emot_emotion_twitter'
+NERGRIT_NER_GRIT_DATA = INDONLU_DIR / 'nergrit_ner_grit'
+KEPS_KEYWORD_EXTRACTION_PROSA_DATA = INDONLU_DIR / 'keps_keyword_extraction_prosa'
+NERP_NER_PROSA_DATA = INDONLU_DIR / 'nerp_ner_prosa'
+SMSA_DOC_SENTIMENT_PROSA_DATA = INDONLU_DIR / 'smsa_doc_sentiment_prosa'
+
+
 
 INDONESIAN_EMOTION_DATASET_DIR = DATASETS_DIR/ 'indonesian_emotion_dataset'
 

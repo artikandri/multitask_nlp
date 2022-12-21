@@ -19,6 +19,13 @@ from multitask_nlp.datasets.studemo.studemo import StudEmoDataModule
 from multitask_nlp.datasets.multinli.multinli import MultiNLIDataModule
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
+from multitask_nlp.datasets.klej.nkjp_ner import NKJP_NER_DataModule
+from multitask_nlp.datasets.aspectemo.aspectemo import ApectemoDataModule
+from multitask_nlp.datasets.ccpl.ccpl import CCPL_DataModule
+from multitask_nlp.datasets.indonlu.nergrit_ner_grit import NerGritDataModule
+from multitask_nlp.datasets.indonlu.keps_keyword_extraction_prosa import KepsKeywordExtractionProsaDataModule
+from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
+from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
 
 from multitask_nlp.learning.train_test import train_test
 from multitask_nlp.models import models as models_dict
@@ -89,7 +96,11 @@ def run_experiments():
          # HoasaAbsaAiryDataModule: {"batch_size": batch_size, "language": "id"},
         # WreteEntailmentUiDataModule: {"batch_size": batch_size, "language": "id"},
          #StudEmoDataModule: {"batch_size": batch_size},
-         MultiNLIDataModule: {"batch_size": batch_size},
+         # ApectemoDataModule: {"batch_size": batch_size},
+         # CCPL_DataModule: {"batch_size": batch_size},
+         # NerpNerProsaDataModule: {"batch_size": batch_size},
+         #NKJP_NER_DataModule:  {"batch_size": batch_size},
+         SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
     }
     task_to_not_log_detailed = ['GoEmotions']
 

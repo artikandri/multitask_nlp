@@ -17,7 +17,6 @@ class DynamicSampling(pl.Callback, ABC):
 
         It is run at the beginning of each epoch. New value depends on epoch number.
         """
-        print(trainer.fit_loop)
         current_epoch = trainer.fit_loop.current_epoch + 1
         mtl_dataset = trainer.train_dataloader.loaders.dataset
         if isinstance(mtl_dataset, ProportionalSamplingMTDataset):
