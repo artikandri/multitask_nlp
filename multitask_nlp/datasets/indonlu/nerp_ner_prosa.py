@@ -31,6 +31,7 @@ class NerpNerProsaDataModule(BaseDataModule):
         self.data_dir = NERP_NER_PROSA_DATA
         self.text_column = 'text'
         self.annotation_column = 'labels'
+        self.label_maps = _CLASS_MAPPING
 
         self.train_split_names = ['train']
         self.val_split_names = ['dev']

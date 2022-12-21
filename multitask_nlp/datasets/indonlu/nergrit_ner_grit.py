@@ -25,6 +25,7 @@ class NerGritDataModule(BaseDataModule):
         super().__init__(**kwargs)
 
         self.data_dir = NERGRIT_NER_GRIT_DATA
+        self.label_maps = _CLASS_MAPPING
         self.text_column = 'text'
         self.annotation_column = 'labels'
 
