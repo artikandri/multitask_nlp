@@ -89,8 +89,8 @@ def run_experiments():
         SmsaDocSentimentProsaDataModule: {"batch_size": batch_size}, #sentiment analysis
         WreteEntailmentUiDataModule: {"batch_size": batch_size}, #entailment
         SNLI_DataModule:  {"batch_size": batch_size}, #entailment
-        FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner
-        NerpNerProsaDataModule: {"batch_size": batch_size}, #ner 
+        #FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner
+        #NerpNerProsaDataModule: {"batch_size": batch_size}, #ner 
         KPWR_N82_DataModule: {"batch_size": batch_size}, #ner
     }
     task_to_not_log_detailed = ['GoEmotions']
