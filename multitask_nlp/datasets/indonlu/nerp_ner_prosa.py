@@ -30,8 +30,8 @@ class NerpNerProsaDataModule(BaseDataModule):
 
         self.data_dir = NERP_NER_PROSA_DATA
         self.text_column = 'text'
-        self.annotation_column = 'labels'
-        self.label_maps = _CLASS_MAPPING
+        self.annotation_column = 'sentiment'
+        self.label_maps = [_CLASS_MAPPING]
 
         self.train_split_names = ['train']
         self.val_split_names = ['dev']
@@ -54,17 +54,17 @@ class NerpNerProsaDataModule(BaseDataModule):
         return self.data[self.text_column].to_list()
 
     def prepare_data(self) -> None:
-        text_ids, texts, labels, splits = self._get_data_from_split_files()
-        print(len(text_ids), len(texts), len(labels), len(splits))
+        text_ids, texts, tokens, splits = self._get_data_from_split_files()
         self.data = pd.DataFrame({
             'text_id': text_ids,
+            self.tokens_column: tokens,
             self.text_column: texts,
             'split': splits,
         })
         self.annotations = pd.DataFrame({
             'text_id': text_ids,
             'annotator_id': 0,
-            'labels': labels
+            'sentiment': 0
         })
 
     def _read_lines_from_txt_file(self, path) -> Tuple[List, ...]:

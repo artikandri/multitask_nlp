@@ -26,7 +26,7 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         super().__init__(**kwargs)
 
         self.data_dir = FACQA_QA_FACTOID_ITB_DATA
-        self.annotation_column = ['ner_tags']
+        self.annotation_column = ['sentiment']
         self.text_column = 'passage_text'
 
         self.train_split_names = ['train']
@@ -51,20 +51,21 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
 
     def prepare_data(self) -> None:
         df = self._get_data_from_split_files()
-        self.data = pd.DataFrame({
-            'text_id': df['text_id'],
-            self.text_column: df['passage_text'],
-            'split': df['splits'],
-        })
         df['seq_label'] = df['seq_label'].apply(lambda row : [i.strip() for i in row[1:-1]])
         labels  = df['seq_label'].values.tolist()
         label_map = {label: i for i, label in enumerate(self.get_labels())}
         labels = list(map(lambda label: list((pd.Series(label)).map(_CLASS_MAPPING)), labels))
 
+        self.data = pd.DataFrame({
+            'text_id': df['text_id'],
+            self.text_column: df['passage_text'],
+            self.tokens_column: labels,
+            'split': df['splits'],
+        })
         self.annotations = pd.DataFrame({
             'text_id': df['text_id'],
             'annotator_id': 0,
-            'ner_tags': labels
+            'sentiment': 0
         })
         self.label_maps = [label_map]
 
