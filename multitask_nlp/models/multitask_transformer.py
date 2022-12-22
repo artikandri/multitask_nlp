@@ -51,7 +51,9 @@ class MultitaskTransformer(nn.Module):
             model_name = TRANSFORMER_MODEL_STRINGS[model_name]
 
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        if model_name in ['roberta-base', 'sdadas/polish-distilroberta',
+        if model_name in ['roberta-base', 
+                            'flax-community/indonesian-roberta-base', 
+                            'sdadas/polish-distilroberta',
                           'sdadas/polish-roberta-base-v2']:
             self.seq_labeling_tokenizer = AutoTokenizer.from_pretrained(
                 model_name,

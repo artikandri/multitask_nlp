@@ -29,6 +29,7 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         self.annotation_column = ['sentiment']
         self.text_column = 'passage_text'
         self.tokens_column = 'tokens'
+        self.label_maps = [_CLASS_MAPPING]
 
         self.train_split_names = ['train']
         self.val_split_names = ['valid']
@@ -52,16 +53,14 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
 
     def prepare_data(self) -> None:
         df = self._get_data_from_split_files()
-        df['seq_label'] = df['seq_label'].apply(lambda row : [i.strip() for i in row[1:-1]])
-        labels  = df['seq_label'].values.tolist()
-        label_map = {label: i for i, label in enumerate(self.get_labels())}
-        labels = list(map(lambda label: list((pd.Series(label)).map(_CLASS_MAPPING)), labels))
-        df['tokens'] = pd.Series(labels)
+        df['tokens'] = df['seq_label'].apply(lambda row : [i.strip() for i in row[1:-1]])
+        tokens  = df['tokens'].values.tolist()
+        tokens = list(map(lambda label: list((pd.Series(label)).map(_CLASS_MAPPING)), tokens))
 
         self.data = pd.DataFrame({
             'text_id': df['text_id'],
             self.text_column: df['passage_text'],
-            self.tokens_column: labels,
+            self.tokens_column: tokens,
             'split': df['splits'],
         })
         self.annotations = pd.DataFrame({
@@ -69,10 +68,6 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
             'annotator_id': 0,
             'sentiment': 0
         })
-        self.label_maps = [label_map]
-
-    def get_labels(self) -> List[str]:
-        return ["O", "B", "I"]
     
     def _parse_row_columns(self, row, columns):
         for column in columns:

@@ -20,6 +20,7 @@ from multitask_nlp.datasets.indonlu.keps_keyword_extraction_prosa import KepsKey
 from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
 from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
 from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
+from multitask_nlp.datasets.kpwr_n82.kpwr_n82 import KPWR_N82_DataModule
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 
 from multitask_nlp.learning.train_test import train_test
@@ -34,7 +35,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_Indo_IndoRoberta_MTL'
+wandb_project_name = 'MTL_Indo_IndoRoberta_MTL_test'
 
 RANDOM_SEED = 2022
 
@@ -76,16 +77,16 @@ def run_experiments():
     T_max_list = [5]
 
     task_datamodules_setup = {
-        CasaAbsaProsaDataModule: {"batch_size": batch_size},
-        EmotEmotionTwitterDataModule: {"batch_size": batch_size},
-        # FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
-        HoasaAbsaAiryDataModule: {"batch_size": batch_size},
-        WreteEntailmentUiDataModule: {"batch_size": batch_size },
-        # NerGritDataModule: {"batch_size": batch_size},
-        # KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
-        # NerpNerProsaDataModule: {"batch_size": batch_size},
-        SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
-        IndonesianEmotionDataModule: {"batch_size": batch_size},
+        # CasaAbsaProsaDataModule: {"batch_size": batch_size},
+        # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        # HoasaAbsaAiryDataModule: {"batch_size": batch_size},
+        # WreteEntailmentUiDataModule: {"batch_size": batch_size },
+        # KPWR_N82_DataModule: {"batch_size": batch_size},
+         NerGritDataModule: {"batch_size": batch_size},
+        KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
+          NerpNerProsaDataModule: {"batch_size": batch_size},
+        # SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
+        # IndonesianEmotionDataModule: {"batch_size": batch_size},
     }
 
     lightning_model_kwargs = {
@@ -126,7 +127,7 @@ def run_experiments():
             "warmup_proportion": warmup_proportion,
             "max_length": max_length,
             "uncertainty_loss": uncertainty_loss,
-            "scaling_type": scaling_type
+            "scaling_type": scaling_type,
         }
 
         used_lightning_model_kwargs = copy(lightning_model_kwargs).update({
