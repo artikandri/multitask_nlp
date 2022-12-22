@@ -82,7 +82,7 @@ def run_experiments():
         HoasaAbsaAiryDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
         # NerGritDataModule: {"batch_size": batch_size},
-        KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
+        # KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
         # NerpNerProsaDataModule: {"batch_size": batch_size},
         SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
         IndonesianEmotionDataModule: {"batch_size": batch_size},
