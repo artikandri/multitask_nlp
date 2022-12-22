@@ -28,6 +28,7 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         self.data_dir = FACQA_QA_FACTOID_ITB_DATA
         self.annotation_column = ['sentiment']
         self.text_column = 'passage_text'
+        self.tokens_column = 'tokens'
 
         self.train_split_names = ['train']
         self.val_split_names = ['valid']
@@ -55,6 +56,7 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         labels  = df['seq_label'].values.tolist()
         label_map = {label: i for i, label in enumerate(self.get_labels())}
         labels = list(map(lambda label: list((pd.Series(label)).map(_CLASS_MAPPING)), labels))
+        df['tokens'] = pd.Series(labels)
 
         self.data = pd.DataFrame({
             'text_id': df['text_id'],
