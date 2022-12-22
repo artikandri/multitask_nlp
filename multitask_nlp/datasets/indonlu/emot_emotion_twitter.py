@@ -23,7 +23,7 @@ class EmotEmotionTwitterDataModule(BaseDataModule):
         assert len(split_sizes) == 3 and sum(split_sizes) == 1 and all(
             0 <= s <= 1 for s in split_sizes)
 
-
+        self.split_sizes = split_sizes
         self.data_dir = EMOT_EMOTION_TWITTER_DATA
         self.annotation_column = ANNOTATION_COLUMNS
         self.text_column = 'text'
@@ -89,10 +89,9 @@ class EmotEmotionTwitterDataModule(BaseDataModule):
 
         df['text_id'] = df.index
         df['text'] = df['tweet']
-        df = df.drop(['tweet', 'label'], axis=1)
 
-        texts_df = df.loc[:, ['text_id', 'text', 'split']]
-        annotations_df = df.loc[:, ['text_id'].extend(ANNOTATION_COLUMNS)]
+        texts_df = df.loc[:, ['text_id', 'text']]
+        annotations_df = df
         annotations_df.loc[:, 'annotator_id'] = 0
 
         return texts_df, annotations_df
