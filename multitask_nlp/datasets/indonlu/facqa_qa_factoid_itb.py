@@ -37,7 +37,7 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
 
     @property
     def class_dims(self):
-        return [len(label_map) for label_map in self.label_maps] * 1
+        return [3] * 1
 
     @property
     def task_name(self):
@@ -54,18 +54,17 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
     def prepare_data(self) -> None:
         df = self._get_data_from_split_files()
 
-        labels = df['seq_label'].apply(lambda row : [i.strip() for i in row[1:-1]])
         labels  = df['seq_label'].values.tolist()
         labels = list(map(lambda label: list((pd.Series(label)).map(_CLASS_MAPPING)), labels))
 
         self.data = pd.DataFrame({
-            'text_id': df['text_id'],
-            self.text_column: df['passage_text'],
-            self.tokens_column: df['passage'],
-            'split': df['splits'],
+            'text_id': df['text_id'].values.tolist(),
+            self.text_column: df['passage_text'].values.tolist(),
+            self.tokens_column: df['passage'].values.tolist(),
+            'split': df['splits'].values.tolist(),
         })
         self.annotations = pd.DataFrame({
-            'text_id': df['text_id'],
+            'text_id': df['text_id'].values.tolist(),
             'annotator_id': 0,
             self.annotation_column: labels
         })
