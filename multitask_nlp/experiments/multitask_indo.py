@@ -82,6 +82,7 @@ def run_experiments():
         # HoasaAbsaAiryDataModule: {"batch_size": batch_size},
         # WreteEntailmentUiDataModule: {"batch_size": batch_size },
         # KPWR_N82_DataModule: {"batch_size": batch_size},
+        FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
          NerGritDataModule: {"batch_size": batch_size},
         KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
           NerpNerProsaDataModule: {"batch_size": batch_size},
