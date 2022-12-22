@@ -32,6 +32,7 @@ class NerpNerProsaDataModule(BaseDataModule):
         self.text_column = 'text'
         self.annotation_column = 'sentiment'
         self.label_maps = [_CLASS_MAPPING]
+        self.tokens_column = 'tokens'
 
         self.train_split_names = ['train']
         self.val_split_names = ['dev']
@@ -57,6 +58,7 @@ class NerpNerProsaDataModule(BaseDataModule):
         text_ids, texts, tokens, splits = self._get_data_from_split_files()
         self.data = pd.DataFrame({
             'text_id': text_ids,
+            'tokens': tokens,
             self.tokens_column: tokens,
             self.text_column: texts,
             'split': splits,

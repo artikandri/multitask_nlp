@@ -32,7 +32,7 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
-use_cuda = False
+use_cuda = True
 wandb_project_name = 'MTL_indo_en_mix_roberta'
 
 RANDOM_SEED = 2022
