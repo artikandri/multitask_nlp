@@ -38,7 +38,7 @@ wandb_project_name = 'MTL_Indo_IndoRoberta'
 
 RANDOM_SEED = 2022
 
-stl_experiments = True
+stl_experiments = False
 
 
 def run_experiments():
@@ -86,8 +86,8 @@ def run_experiments():
         NerpNerProsaDataModule: {"batch_size": batch_size},
         SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
         IndonesianEmotionDataModule: {"batch_size": batch_size},
-
     }
+
     lightning_model_kwargs = {
         'lr_scheduling': lr_scheduling,
         'warmup_proportion': warmup_proportion
