@@ -26,9 +26,9 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         super().__init__(**kwargs)
 
         self.data_dir = FACQA_QA_FACTOID_ITB_DATA
-        self.annotation_column = ['labels']
+        self.annotation_column = 'labels'
         self.text_column = 'passage_text'
-        self.tokens_column = 'tokens'
+        self.tokens_column = 'passage'
         self.label_maps = [_CLASS_MAPPING]
 
         self.train_split_names = ['train']
