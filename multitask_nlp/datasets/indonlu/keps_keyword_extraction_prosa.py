@@ -22,7 +22,9 @@ class KepsKeywordExtractionProsaDataModule(BaseDataModule):
 
         self.data_dir = KEPS_KEYWORD_EXTRACTION_PROSA_DATA
         self.text_column = 'text'
-        self.annotation_column = 'labels'
+        self.annotation_column = 'sentiment'
+        self.tokens_column = 'tokens'
+        self.label_maps = [_CLASS_MAPPING]
 
         self.train_split_names = ['train']
         self.val_split_names = ['dev']
@@ -49,12 +51,13 @@ class KepsKeywordExtractionProsaDataModule(BaseDataModule):
         self.data = pd.DataFrame({
             'text_id': text_ids,
             self.text_column: texts,
+            self.tokens_column: labels,
             'split': splits,
         })
         self.annotations = pd.DataFrame({
             'text_id': text_ids,
             'annotator_id': 0,
-            'labels': labels
+            'sentiment': 0
         })
 
     def _read_lines_from_txt_file(self, path) -> Tuple[List, ...]:
