@@ -55,7 +55,7 @@ class FacqaQaFactoidItbDataModule(BaseDataModule):
         df = self._get_data_from_split_files()
 
         labels = df['seq_label'].apply(lambda row : [i.strip() for i in row[1:-1]])
-        labels  = df['tokens'].values.tolist()
+        labels  = df['seq_label'].values.tolist()
         labels = list(map(lambda label: list((pd.Series(label)).map(_CLASS_MAPPING)), labels))
 
         self.data = pd.DataFrame({
