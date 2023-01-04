@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     max_length = 256
     lr_rate = 1e-4
-    epochs = 10
+    epochs = 4
     batch_size = 32
     weight_decay = 0.01
     warmup_proportion = 0.1
@@ -95,7 +95,7 @@ if __name__ == "__main__":
                     ModelCheckpoint(
                         dirpath=CHECKPOINTS_DIR / logger.experiment.name,
                         save_top_k=1,
-                        monitor='valid_loss',
+                        monitor='loss',
                         mode='max',
                     )
                 ]
