@@ -27,7 +27,7 @@ class KepsKeywordExtractionProsaDataModule(BaseDataModule):
         self.label_maps = [_CLASS_MAPPING]
 
         self.train_split_names = ['train']
-        self.val_split_names = ['dev']
+        self.val_split_names = ['valid']
         self.test_split_names = ['test']
 
     @property

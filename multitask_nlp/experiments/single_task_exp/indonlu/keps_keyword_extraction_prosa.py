@@ -95,7 +95,7 @@ if __name__ == "__main__":
                     ModelCheckpoint(
                         dirpath=CHECKPOINTS_DIR / logger.experiment.name,
                         save_top_k=1,
-                        monitor='loss',
+                        monitor='valid_overall_score',
                         mode='max',
                     )
                 ]
