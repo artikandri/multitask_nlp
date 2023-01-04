@@ -34,7 +34,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_Indo_IndoRoberta_MTL_test'
+wandb_project_name = 'MTL_Indo_Bert_MTL_test'
 
 RANDOM_SEED = 2022
 
@@ -43,7 +43,7 @@ stl_experiments = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['indo-roberta']
+    model_names = ['bert']
     rep_num = 5
 
     loss_args_list = [(False, None)]
