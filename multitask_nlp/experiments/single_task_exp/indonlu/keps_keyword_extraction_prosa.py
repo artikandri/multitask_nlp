@@ -1,16 +1,20 @@
 import os
 from itertools import product
+from copy import copy, deepcopy
 from typing import List
 
 import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import LearningRateMonitor
+from pytorch_lightning.callbacks import ModelCheckpoint
 
 from multitask_nlp.datasets.indonlu.keps_keyword_extraction_prosa import KepsKeywordExtractionProsaDataModule
 from multitask_nlp.learning.train_test import train_test
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import LOGS_DIR
 from multitask_nlp.utils import seed_everything
+from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
+
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
@@ -32,7 +36,7 @@ if __name__ == "__main__":
 
     use_cuda = True
     custom_callbacks: List[pl.Callback] = [
-        LearningRateMonitor()
+        LearningRateMonitor(),
     ]
     lightning_model_kwargs = {
         'lr_scheduling': True,
@@ -74,6 +78,18 @@ if __name__ == "__main__":
             log_model=False,
         )
 
+        run_custom_callbacks = copy(custom_callbacks)
+        run_custom_callbacks.extend(
+            [
+                ModelCheckpoint(
+                    dirpath=CHECKPOINTS_DIR / logger.experiment.name,
+                    save_top_k=1,
+                    monitor='valid_overall_score',
+                    mode='max',
+                )
+            ]
+        )
+
         train_test(
             datamodule=data_module,
             model=model,
@@ -82,7 +98,8 @@ if __name__ == "__main__":
             weight_decay=weight_decay,
             use_cuda=use_cuda,
             logger=logger,
-            custom_callbacks=custom_callbacks,
-            lightning_model_kwargs=lightning_model_kwargs
+            custom_callbacks=run_custom_callbacks,
+            lightning_model_kwargs=lightning_model_kwargs,
         )
+
         logger.experiment.finish()
