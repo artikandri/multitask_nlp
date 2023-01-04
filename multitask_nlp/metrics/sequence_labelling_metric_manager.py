@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Optional, Set, Union
 
 import numpy as np
+import math
 
 import torch
 from seqeval.metrics import accuracy_score as seq_eval_accuracy_score, classification_report
@@ -131,6 +132,9 @@ class SequenceLabellingMetricManager(BaseMetricManager):
 
                     y_pred.extend(b_y_pred)
                     y_true.extend(b_y_true)
+
+                y_true = [0 if math.isnan(x) else x for x in y_true]
+                y_pred = [0 if math.isnan(x) else x for x in y_pred]
 
                 y_pred = [list(map(lambda t: rev_label_map[t], tag_seq)) for tag_seq in y_pred]
                 y_true = [list(map(lambda t: rev_label_map[t], tag_seq)) for tag_seq in y_true]
