@@ -133,8 +133,11 @@ class SequenceLabellingMetricManager(BaseMetricManager):
                     y_pred.extend(b_y_pred)
                     y_true.extend(b_y_true)
 
-                y_pred = [list(map(lambda t: rev_label_map[t], (0 if math.isnan(tag_seq) else tag_seq))) for tag_seq in y_pred]
-                y_true = [list(map(lambda t: rev_label_map[t], (0 if math.isnan(tag_seq) else tag_seq))) for tag_seq in y_true]
+                y_pred = [list(map(lambda y: 0 if math.isnan(y) else y, y_list)) for y_list in y_pred]
+                y_true = [list(map(lambda y: 0 if math.isnan(y) else y, y_list)) for y_list in y_true]
+
+                y_pred = [list(map(lambda t: rev_label_map[t], tag_seq)) for tag_seq in y_pred]
+                y_true = [list(map(lambda t: rev_label_map[t], tag_seq)) for tag_seq in y_true]
 
                 categories_y_true[class_name] = y_true
                 categories_y_pred[class_name] = y_pred
