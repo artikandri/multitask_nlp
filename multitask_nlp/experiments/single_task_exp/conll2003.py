@@ -15,7 +15,7 @@ from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 42
@@ -25,8 +25,8 @@ if __name__ == "__main__":
     rep_num = 1
 
     model_types = ['multitask_transformer']
-    model_names = ['xtremedistil-l6-h256']
-    wandb_project_name = 'Conll2003_EXP_test'
+    model_names = ['bert']
+    wandb_project_name = 'Conll2003_SingleEXP_test'
 
     max_length = 256
     lr_rate = 1e-5
