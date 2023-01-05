@@ -33,7 +33,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_indo_en_mix_bert'
+wandb_project_name = 'MTL_en_bert'
 
 RANDOM_SEED = 2022
 
