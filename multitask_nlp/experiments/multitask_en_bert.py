@@ -45,8 +45,7 @@ def run_experiments():
     model_names = ['bert']  # ['microsoft/xtremedistil-l6-h256-uncased']  # ['bert']
     rep_num = 1
 
-    multitask_dataset_types = ['round_robin', 'sampling', 'proportional_sampling',
-                               'annealing_sampling']
+    multitask_dataset_types =  ['sampling'] # ['round_robin', 'sampling', 'proportional_sampling', 'annealing_sampling']
     loss_args_list = [(True, None), (False, None)]
 
     max_length = 128
