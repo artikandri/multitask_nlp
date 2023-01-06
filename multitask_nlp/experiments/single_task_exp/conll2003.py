@@ -26,11 +26,11 @@ if __name__ == "__main__":
 
     model_types = ['multitask_transformer']
     model_names = ['bert']
-    wandb_project_name = 'Conll2003_SingleEXP_test'
+    wandb_project_name = 'Conll2003_SingleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-5
-    epochs = 4
+    epochs = 10
     batch_size = 32
     weight_decay = 0.1
     warmup_proportion = 0.06
@@ -91,7 +91,7 @@ if __name__ == "__main__":
                     ),
                     EarlyStopping(
                         monitor='valid_overall_score',
-                        patience=6,
+                        patience=5,
                         mode='max'
                     )
                 ]
