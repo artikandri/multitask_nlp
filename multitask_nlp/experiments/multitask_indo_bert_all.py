@@ -1,28 +1,26 @@
 import os
-from copy import copy
+from copy import copy, deepcopy
 from itertools import product
 from typing import List
 
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
-from multitask_nlp.datasets.superglue.boolq import BoolQDataModule
-from multitask_nlp.datasets.superglue.commitment_bank import CommitmentBankDataModule
-from multitask_nlp.datasets.conll2003.conll2003 import Conll2003DataModule
-from multitask_nlp.datasets.goemotions.goemotions import GoEmotionsDataModule
-from multitask_nlp.datasets.multiemo.multiemo import MultiemoDataModule
-from multitask_nlp.datasets.measuring_hate_speech.measuring_hate_speech import \
-    MeasuringHateSpeechDataModule
-from multitask_nlp.datasets.superglue.multirc import MultiRCDataModule
+
+from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
+from multitask_nlp.datasets.indonlu.emot_emotion_twitter import EmotEmotionTwitterDataModule
+from multitask_nlp.datasets.indonlu.facqa_qa_factoid_itb import FacqaQaFactoidItbDataModule
+from multitask_nlp.datasets.indonlu.hoasa_absa_airy import HoasaAbsaAiryDataModule
+from multitask_nlp.datasets.indonlu.wrete_entailment_ui import WreteEntailmentUiDataModule
+from multitask_nlp.datasets.indonlu.nergrit_ner_grit import NerGritDataModule
+from multitask_nlp.datasets.indonlu.keps_keyword_extraction_prosa import KepsKeywordExtractionProsaDataModule
+from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
+from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
+from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
-from multitask_nlp.datasets.pejorative.pejorative import PejorativeDataModule
-from multitask_nlp.datasets.glue.rte import RTE_DataModule
-from multitask_nlp.datasets.scitail.scitail import SciTailDataModule
-from multitask_nlp.datasets.glue.sst2 import SST_2_DataModule
-from multitask_nlp.datasets.glue.stsb import STS_B_DataModule
 
 from multitask_nlp.learning.train_test import train_test
 from multitask_nlp.models import models as models_dict
@@ -32,11 +30,11 @@ from multitask_nlp.utils.callbacks.dynamic_proportion_sampling import AnnealingS
     DynamicTemperatureSampling
 from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetResetter
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_DistilBERT_vs_BERT_EXP'
+wandb_project_name = 'MTL_Indo_Bert_EarlyStopping_all'
 
 RANDOM_SEED = 2022
 
@@ -45,21 +43,23 @@ stl_experiments = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['distilbert', 'bert']
+    model_names = ['bert']
     rep_num = 5
 
-    loss_args_list = [(True,  None)]
-    multitask_dataset_types = ['round_robin']
+    loss_args_list = [(False, None)]
+    multitask_dataset_types = ['sampling']
 
-    max_length = 128
-    batch_size = 32
+    max_length = 512
+    batch_size = 16
     epochs = 10
     lr_rate = 1e-5
     weight_decay = 0.01
     lr_scheduling = True
     warmup_proportion = 0.1
 
-    trainer_kwargs = None
+    trainer_kwargs = {
+        'accumulate_grad_batches': 2
+    }
     custom_callbacks: List[pl.Callback] = [
         ValidDatasetResetter()
     ]
@@ -76,26 +76,21 @@ def run_experiments():
     T_max_list = [5]
 
     task_datamodules_setup = {
-        BoolQDataModule: {"batch_size": batch_size},
-        CommitmentBankDataModule: {"batch_size": batch_size},
-        Conll2003DataModule: {"batch_size": batch_size},
-        GoEmotionsDataModule: {"major_voting": True, "batch_size": batch_size},
-        MeasuringHateSpeechDataModule: {"major_voting": True, "normalize": True,
-                                        "batch_size": batch_size},
-        MultiemoDataModule: {"domain": "all", "language": "en", "batch_size": batch_size},
-        MultiRCDataModule: {"batch_size": batch_size},
-        PejorativeDataModule: {"major_voting": True, "batch_size": batch_size},
-        RTE_DataModule: {"batch_size": batch_size},
-        SciTailDataModule: {"batch_size": batch_size},
-        SST_2_DataModule: {"batch_size": batch_size},
-        STS_B_DataModule: {"normalize": True, "batch_size": batch_size},
+        CasaAbsaProsaDataModule: {"batch_size": batch_size},
+        EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        HoasaAbsaAiryDataModule: {"batch_size": batch_size},
+        WreteEntailmentUiDataModule: {"batch_size": batch_size },
+        FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
+        NerGritDataModule: {"batch_size": batch_size},
+        KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
+        NerpNerProsaDataModule: {"batch_size": batch_size},
+        SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
+        IndonesianEmotionDataModule: {"batch_size": batch_size},
     }
-    task_to_not_log_detailed = ['GoEmotions']
 
     lightning_model_kwargs = {
         'lr_scheduling': lr_scheduling,
-        'warmup_proportion': warmup_proportion,
-        'tasks_to_not_log_detailed_metrics': task_to_not_log_detailed
+        'warmup_proportion': warmup_proportion
     }
 
     tasks_datamodules = []
@@ -131,7 +126,7 @@ def run_experiments():
             "warmup_proportion": warmup_proportion,
             "max_length": max_length,
             "uncertainty_loss": uncertainty_loss,
-            "scaling_type": scaling_type
+            "scaling_type": scaling_type,
         }
 
         used_lightning_model_kwargs = copy(lightning_model_kwargs).update({
@@ -202,7 +197,7 @@ def run_experiments():
                     mtl_extra_callbacks.append(None)
 
                 for multitask_dataset_args, mtl_extra_callback in \
-                    product(multitask_dataset_args_list, mtl_extra_callbacks):
+                        product(multitask_dataset_args_list, mtl_extra_callbacks):
 
                     mtl_custom_callbacks = copy(custom_callbacks)
                     if mtl_extra_callback is not None:
@@ -233,6 +228,24 @@ def run_experiments():
                         trainer_kwargs=trainer_kwargs
                     )
 
+                    # Fine-tuning of MTL model for a single task
+                    for data_module in tasks_datamodules:
+                        model_to_finetune = deepcopy(model)
+
+                        hparams_copy = copy(hparams)
+                        hparams_copy["learning_kind"] = 'MTL Finetuning'
+                        hparams_copy["dataset"] = data_module.task_name
+                        hparams_copy["mt_dataset_type"] = multitask_dataset_type
+                        hparams_copy.update(multitask_dataset_args)
+
+                        run_training(
+                            model_to_finetune, data_module, hparams_copy,
+                            epochs, lr_rate, weight_decay,
+                            custom_callbacks=custom_callbacks,
+                            lightning_model_kwargs=lightning_model_kwargs,
+                            trainer_kwargs=trainer_kwargs
+                        )
+
 
 def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, custom_callbacks,
                  lightning_model_kwargs=None, trainer_kwargs=None):
@@ -241,6 +254,7 @@ def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, cust
         config=hparams,
         project=wandb_project_name,
         log_model=False,
+        
     )
 
     run_custom_callbacks = copy(custom_callbacks)
@@ -251,6 +265,11 @@ def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, cust
                 save_top_k=1,
                 monitor='valid_overall_score',
                 mode='max',
+            ),
+            EarlyStopping(
+                monitor='valid_overall_score',
+                patience=5,
+                mode='max'
             )
         ]
     )

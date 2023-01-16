@@ -6,7 +6,7 @@ from typing import List
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
 
@@ -34,7 +34,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_Indo_Bert_MTL_test'
+wandb_project_name = 'MTL_Indo_Bert_EarlyStopping'
 
 RANDOM_SEED = 2022
 
@@ -77,12 +77,12 @@ def run_experiments():
 
     task_datamodules_setup = {
         CasaAbsaProsaDataModule: {"batch_size": batch_size},
-        EmotEmotionTwitterDataModule: {"batch_size": batch_size},
-        HoasaAbsaAiryDataModule: {"batch_size": batch_size},
+       # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        # HoasaAbsaAiryDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
         FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
-        NerGritDataModule: {"batch_size": batch_size},
-        KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
+        # NerGritDataModule: {"batch_size": batch_size},
+        # KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
         NerpNerProsaDataModule: {"batch_size": batch_size},
         SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
         IndonesianEmotionDataModule: {"batch_size": batch_size},
@@ -254,6 +254,7 @@ def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, cust
         config=hparams,
         project=wandb_project_name,
         log_model=False,
+        
     )
 
     run_custom_callbacks = copy(custom_callbacks)
@@ -264,6 +265,11 @@ def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, cust
                 save_top_k=1,
                 monitor='valid_overall_score',
                 mode='max',
+            ),
+            EarlyStopping(
+                monitor='valid_overall_score',
+                patience=5,
+                mode='max'
             )
         ]
     )

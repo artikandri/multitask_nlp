@@ -7,7 +7,7 @@ import numpy as np
 import pytorch_lightning as pl
 import torch
 from pytorch_lightning import loggers as pl_loggers
-from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
+from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
 from multitask_nlp.learning.train_test import train_test
@@ -27,11 +27,11 @@ if __name__ == "__main__":
     model_types = ['multitask_transformer']
     model_names = ['bert', 'indo-roberta']
 
-    wandb_project_name = 'NerpNerProsa_singleExp_test'
+    wandb_project_name = 'NerpNerProsa_singleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-4
-    epochs = 4
+    epochs = 10
     batch_size = 32
     weight_decay = 0.01
     warmup_proportion = 0.1
@@ -97,6 +97,11 @@ if __name__ == "__main__":
                         save_top_k=1,
                         monitor='valid_overall_score',
                         mode='max',
+                    ),
+                    EarlyStopping(
+                        monitor='valid_overall_score',
+                        patience=5,
+                        mode='max'
                     )
                 ]
             )

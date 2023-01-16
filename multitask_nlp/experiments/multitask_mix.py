@@ -6,7 +6,7 @@ from typing import List
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
 from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
@@ -33,7 +33,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_indo_en_mix_bert'
+wandb_project_name = 'MTL_mix_bert_EarlyStopping'
 
 RANDOM_SEED = 2022
 
@@ -50,7 +50,7 @@ def run_experiments():
 
     max_length = 128
     batch_size = 8
-    epochs = 4
+    epochs = 10
     lr_rate = 1e-5
     weight_decay = 0.01
     lr_scheduling = True
@@ -236,6 +236,7 @@ def run_experiments():
                     )
 
 
+
 def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, custom_callbacks,
                  lightning_model_kwargs=None, trainer_kwargs=None):
     logger = pl_loggers.WandbLogger(
@@ -243,6 +244,7 @@ def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, cust
         config=hparams,
         project=wandb_project_name,
         log_model=False,
+        
     )
 
     run_custom_callbacks = copy(custom_callbacks)
@@ -253,6 +255,11 @@ def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, cust
                 save_top_k=1,
                 monitor='valid_overall_score',
                 mode='max',
+            ),
+            EarlyStopping(
+                monitor='valid_overall_score',
+                patience=5,
+                mode='max'
             )
         ]
     )
