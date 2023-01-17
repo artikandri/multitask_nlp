@@ -35,7 +35,7 @@ if __name__ == "__main__":
     weight_decay = 0.1
     warmup_proportion = 0.06
 
-    use_cuda = True
+    use_cuda = False
     custom_callbacks: List[pl.Callback] = [
         LearningRateMonitor()
     ]
