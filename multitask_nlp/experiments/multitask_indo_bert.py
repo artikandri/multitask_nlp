@@ -34,7 +34,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_Indo_Bert_EarlyStopping'
+wandb_project_name = 'MTL_Indo_xlml_EarlyStopping'
 
 RANDOM_SEED = 2022
 
@@ -43,7 +43,7 @@ stl_experiments = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['bert']
+    model_names = ['xlmr-large']
     rep_num = 5
 
     loss_args_list = [(False, None)]

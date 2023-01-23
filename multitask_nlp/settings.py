@@ -74,6 +74,7 @@ INDONESIAN_EMOTION_DATASET_DIR = DATASETS_DIR/ 'indonesian_emotion_dataset'
 
 TRANSFORMER_MODEL_STRINGS = {
     'xlmr': 'xlm-roberta-base',
+    'xlmr-large': 'xlm-roberta-large',
     'bert': 'bert-base-cased',
     'distilbert': 'distilbert-base-cased',
     'deberta': 'microsoft/deberta-large',

@@ -33,7 +33,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_mix_bert_EarlyStopping'
+wandb_project_name = 'MTL_mix_xlml_EarlyStopping'
 
 RANDOM_SEED = 2022
 
@@ -42,7 +42,7 @@ stl_experiments = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['bert']  # ['microsoft/xtremedistil-l6-h256-uncased']  # ['bert']
+    model_names = ['xlmr-large']  # ['microsoft/xtremedistil-l6-h256-uncased']  # ['bert']
     rep_num = 1
 
     multitask_dataset_types =  ['sampling'] # ['round_robin', 'sampling', 'proportional_sampling', 'annealing_sampling']
