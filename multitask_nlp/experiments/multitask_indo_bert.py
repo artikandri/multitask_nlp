@@ -45,6 +45,8 @@ if use_cuda:
     torch.cuda.empty_cache()
     gc.collect()
 
+
+def run_experiments(self):
     with torch.no_grad():
         for m in self.children():
             m.cuda()
@@ -53,8 +55,6 @@ if use_cuda:
             m.cpu()
             torch.cuda.empty_cache()
 
-
-def run_experiments():
     model_types = ['multitask_transformer']
     model_names = ['xlmr-large']
     rep_num = 5
@@ -303,4 +303,5 @@ def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, cust
 
 
 if __name__ == "__main__":
+
     run_experiments()
