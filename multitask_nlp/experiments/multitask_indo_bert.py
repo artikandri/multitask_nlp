@@ -43,7 +43,6 @@ stl_experiments = False
 
 if use_cuda:
     torch.cuda.empty_cache()
-    del variables
     gc.collect()
 
     with torch.no_grad():
