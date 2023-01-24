@@ -40,6 +40,9 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 
+if use_cuda:
+    torch.cuda.empty_cache()
+
 
 def run_experiments():
     model_types = ['multitask_transformer']
