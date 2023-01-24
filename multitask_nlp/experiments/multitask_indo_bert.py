@@ -31,7 +31,7 @@ from multitask_nlp.utils.callbacks.dynamic_proportion_sampling import AnnealingS
     DynamicTemperatureSampling
 from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetResetter
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
@@ -46,15 +46,7 @@ if use_cuda:
     gc.collect()
 
 
-def run_experiments(self):
-    with torch.no_grad():
-        for m in self.children():
-            m.cuda()
-            m.eval()
-            x = m(x)
-            m.cpu()
-            torch.cuda.empty_cache()
-
+def run_experiments():
     model_types = ['multitask_transformer']
     model_names = ['xlmr-large']
     rep_num = 5
@@ -303,5 +295,4 @@ def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, cust
 
 
 if __name__ == "__main__":
-
     run_experiments()
