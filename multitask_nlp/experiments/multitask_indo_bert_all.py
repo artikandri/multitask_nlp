@@ -36,7 +36,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 use_cuda = False
 wandb_project_name = 'MTL_Indo_xlml_EarlyStopping_all'
 
-RANDOM_SEED = 2022
+RANDOM_SEED = 2023
 
 stl_experiments = False
 

@@ -29,7 +29,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 use_cuda = True
 wandb_project_name = 'MTL_en_xlml_EarlyStopping'
 
-RANDOM_SEED = 2022
+RANDOM_SEED = 2023
 
 stl_experiments = False
 
@@ -80,7 +80,7 @@ def run_experiments():
         SNLI_DataModule:  {"batch_size": batch_size}, #entailment
         Conll2003DataModule: {"batch_size": batch_size}, #ner
     }
-    task_to_not_log_detailed = ['GoEmotions']
+    task_to_not_log_detailed = ['GoEmotions', "SNLI", "Conll2003"]
 
     lightning_model_kwargs = {
         'lr_scheduling': lr_scheduling,

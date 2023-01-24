@@ -33,7 +33,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 use_cuda = True
 wandb_project_name = 'MTL_PL_KLEJ_w_FT2'
 
-RANDOM_SEED = 2022
+RANDOM_SEED = 2023
 
 stl_experiments = True
 

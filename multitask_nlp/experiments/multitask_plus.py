@@ -38,7 +38,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 use_cuda = True
 wandb_project_name = 'MTL_DistilBERT_vs_BERT_EXP'
 
-RANDOM_SEED = 2022
+RANDOM_SEED = 2023
 
 stl_experiments = False
 

@@ -30,7 +30,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 use_cuda = True
 wandb_project_name = 'MTL_SL_PL_EXP'
 
-RANDOM_SEED = 2022
+RANDOM_SEED = 2023
 
 stl_experiments = True
 
