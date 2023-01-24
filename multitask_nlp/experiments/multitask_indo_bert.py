@@ -2,6 +2,7 @@ import os
 from copy import copy, deepcopy
 from itertools import product
 from typing import List
+import gc 
 
 import torch
 import pytorch_lightning as pl
@@ -42,6 +43,16 @@ stl_experiments = False
 
 if use_cuda:
     torch.cuda.empty_cache()
+    del variables
+    gc.collect()
+
+    with torch.no_grad():
+        for m in self.children():
+            m.cuda()
+            m.eval()
+            x = m(x)
+            m.cpu()
+            torch.cuda.empty_cache()
 
 
 def run_experiments():
