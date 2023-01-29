@@ -25,7 +25,7 @@ if __name__ == "__main__":
     rep_num = 1
 
     model_types = ['multitask_transformer']
-    model_names = ['xlmr-large']
+    model_names = ['xlmr']
     wandb_project_name = 'Conll2003_SingleExp_EarlyStopping'
 
     max_length = 256

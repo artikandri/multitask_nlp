@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     rep_num = 5
     model_types = ['multitask_transformer']
-    model_names = ['xlmr-large']
+    model_names = ['xlmr']
 
     wandb_project_name = 'WreteEntailmentUI_singleExp_EarlyStopping'
 
