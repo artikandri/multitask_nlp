@@ -27,7 +27,7 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 
 os.environ["WANDB_START_METHOD"] = "thread"
 
-use_cuda = False
+use_cuda = True
 wandb_project_name = 'MTL_en_xlmr_EarlyStopping'
 
 RANDOM_SEED = 2023
