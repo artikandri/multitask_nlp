@@ -18,7 +18,7 @@ from multitask_nlp.utils import seed_everything
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
-RANDOM_SEED = 42
+RANDOM_SEED = 2023
 
 if __name__ == "__main__":
     datamodule_cls = KepsKeywordExtractionProsaDataModule
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
 
-    wandb_project_name = 'KepsKeywordExtractionProsa_singleExp_EarlyStopping'
+    wandb_project_name = 'KepsKeywordExtractionProsa_xlmr_singleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-4

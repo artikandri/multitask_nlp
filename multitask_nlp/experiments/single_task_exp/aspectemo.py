@@ -18,7 +18,7 @@ from multitask_nlp.utils import seed_everything
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
-RANDOM_SEED = 42
+RANDOM_SEED = 2023
 
 if __name__ == "__main__":
     datamodule_cls = ApectemoDataModule
