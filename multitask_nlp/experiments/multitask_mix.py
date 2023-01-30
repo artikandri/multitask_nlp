@@ -29,7 +29,7 @@ from multitask_nlp.utils.callbacks.dynamic_proportion_sampling import AnnealingS
     DynamicTemperatureSampling
 from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetResetter
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
@@ -42,38 +42,32 @@ stl_experiments = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']  # ['microsoft/xtremedistil-l6-h256-uncased']  # ['bert']
-    rep_num = 1
+    model_names = ['xlmr']
+    rep_num = 5
 
-    multitask_dataset_types =  ['sampling'] # ['round_robin', 'sampling', 'proportional_sampling', 'annealing_sampling']
-    loss_args_list = [(True, None), (False, None)]
+    loss_args_list = [(False, None)]
+    multitask_dataset_types = ['sampling']
 
-    max_length = 128
-    batch_size = 8
+    max_length = 512
+    batch_size = 16
     epochs = 10
     lr_rate = 1e-5
     weight_decay = 0.01
     lr_scheduling = True
     warmup_proportion = 0.1
-    
-    accelerator = 'gpu'
-    devices=1
 
-    # trainer_kwargs = None
     trainer_kwargs = {
-        'accumulate_grad_batches': 4,
-        'accelerator': accelerator,
-        'devices': devices
+        'accumulate_grad_batches': 2
     }
     custom_callbacks: List[pl.Callback] = [
         ValidDatasetResetter()
     ]
 
-    steps_in_epoch_list = [230]
+    steps_in_epoch_list = [6500]
     total_steps_list = [s * epochs for s in steps_in_epoch_list]
 
     # proportional sampling arguments
-    alpha_list = [0.75]
+    alpha_list = [0.2]
 
     # dynamic temperature arguments
     N_list = [3]
