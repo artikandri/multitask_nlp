@@ -5,6 +5,10 @@ from typing import List
 
 import numpy as np
 import pytorch_lightning as pl
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+
+
 import torch
 from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint, EarlyStopping
@@ -15,7 +19,6 @@ from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
