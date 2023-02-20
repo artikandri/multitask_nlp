@@ -25,9 +25,7 @@ if __name__ == "__main__":
 
     rep_num = 5
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
-
-    wandb_project_name = 'HoasaAbsaAiry_xlmr_singleExp_EarlyStopping'
+    model_names = ['indo-roberta', 'indo-roberta']
 
     max_length = 256
     lr_rate = 1e-4
@@ -61,6 +59,8 @@ if __name__ == "__main__":
 
     for model_type, model_name, in product(model_types, model_names):
         model_cls = models_dict[model_type]
+        wandb_project_name = f'HoasaAbsaAiry_{model_name}_singleExp_EarlyStopping'
+
         hparams = {
             "learning_kind": 'STL',
             "dataset": type(data_module).__name__,

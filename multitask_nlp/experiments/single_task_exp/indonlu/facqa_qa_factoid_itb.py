@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     rep_num = 5
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['indo-roberta']
 
     wandb_project_name = 'FacqaQAFactoidItb_xlmr_singleExp_EarlyStopping'
 

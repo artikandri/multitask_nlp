@@ -25,9 +25,9 @@ if __name__ == "__main__":
 
     rep_num = 5
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['indo-roberta']
 
-    wandb_project_name = 'WreteEntailmentUI_xlmr_singleExp_EarlyStopping'
+    wandb_project_name = 'WreteEntailmentUI_indo-roberta_singleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-4
