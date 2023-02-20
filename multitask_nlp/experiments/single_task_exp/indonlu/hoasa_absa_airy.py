@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     rep_num = 5
     model_types = ['multitask_transformer']
-    model_names = ['indo-roberta', 'indo-roberta']
+    model_names = ['xlmr', 'indo-roberta']
 
     max_length = 256
     lr_rate = 1e-4
