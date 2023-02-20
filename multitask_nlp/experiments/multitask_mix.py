@@ -64,7 +64,7 @@ def run_experiments():
         ValidDatasetResetter()
     ]
 
-    steps_in_epoch_list = [6500]
+    steps_in_epoch_list = [5500]
     total_steps_list = [s * epochs for s in steps_in_epoch_list]
 
     # proportional sampling arguments
