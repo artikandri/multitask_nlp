@@ -3,7 +3,7 @@ from copy import copy
 from itertools import product
 from typing import List
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import torch
 import pytorch_lightning as pl
@@ -11,10 +11,16 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
+from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
+from multitask_nlp.datasets.indonlu.facqa_qa_factoid_itb import FacqaQaFactoidItbDataModule
+from multitask_nlp.datasets.indonlu.wrete_entailment_ui import WreteEntailmentUiDataModule
 from multitask_nlp.datasets.goemotions.goemotions import GoEmotionsDataModule
 from multitask_nlp.datasets.studemo.studemo import StudEmoDataModule
 from multitask_nlp.datasets.snli.snli import SNLI_DataModule
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
+from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
+from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
+from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
 from multitask_nlp.datasets.conll2003.conll2003 import Conll2003DataModule
 
 from multitask_nlp.learning.train_test import train_test
@@ -75,7 +81,7 @@ def run_experiments():
         SNLI_DataModule:  {"batch_size": batch_size}, #entailment
         Conll2003DataModule: {"batch_size": batch_size}, #ner
     }
-    task_to_not_log_detailed = ['GoEmotions', "SNLI", "Conll2003"]
+    task_to_not_log_detailed = ['GoEmotions']
 
     lightning_model_kwargs = {
         'lr_scheduling': lr_scheduling,
