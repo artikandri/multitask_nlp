@@ -2,10 +2,15 @@ import os
 from copy import copy
 from itertools import product
 from typing import List
+import gc   
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+gc.collect()   
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "0, 2, 3"
 
 import torch
+torch.cuda.empty_cache()
+
 import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
