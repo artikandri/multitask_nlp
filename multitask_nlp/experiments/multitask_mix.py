@@ -34,7 +34,7 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_mix_xlmr_EarlyStopping'
+wandb_project_name = 'MTL_mix_indo-roberta_EarlyStopping'
 
 RANDOM_SEED = 2023
 
@@ -43,7 +43,7 @@ stl_experiments = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['indo-roberta']
     rep_num = 5
 
     loss_args_list = [(False, None)]
