@@ -41,7 +41,7 @@ stl_experiments = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['xlmr', 'indo-roberta']
     rep_num = 5
 
     loss_args_list = [(False, None)]
