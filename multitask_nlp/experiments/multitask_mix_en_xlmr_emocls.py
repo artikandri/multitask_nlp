@@ -3,7 +3,7 @@ from copy import copy
 from itertools import product
 from typing import List
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import torch
 import pytorch_lightning as pl
@@ -41,7 +41,7 @@ stl_experiments = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['xlmr', 'bert']
     rep_num = 5
 
     loss_args_list = [(False, None)]
