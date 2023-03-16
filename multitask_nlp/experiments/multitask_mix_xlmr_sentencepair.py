@@ -115,7 +115,7 @@ def run_experiments():
         product(model_types, model_names, loss_args_list):
         model_cls = models_dict[model_type]
 
-        wandb_project_name = f'MTL_mix_{model_name}_emocls_EarlyStopping'
+        wandb_project_name = f'MTL_mix2_{model_name}_sentencepair_EarlyStopping'
 
         uncertainty_loss, scaling_type = loss_args
         hparams = {
