@@ -46,6 +46,7 @@ class MultitaskTransformer(nn.Module):
             ValueError: When task type is incorrect.
         """
         super().__init__()
+        self.save_hyperparameters()
 
         if model_name in TRANSFORMER_MODEL_STRINGS:
             model_name = TRANSFORMER_MODEL_STRINGS[model_name]
