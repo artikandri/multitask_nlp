@@ -25,9 +25,7 @@ if __name__ == "__main__":
 
     rep_num = 5
     model_types = ['multitask_transformer']
-    model_names = ['indo-roberta']
-
-    wandb_project_name = 'WreteEntailmentUI_indo-roberta_singleExp_EarlyStopping'
+    model_names = ['xlmr', 'indo-roberta']
 
     max_length = 256
     lr_rate = 1e-4
@@ -81,6 +79,9 @@ if __name__ == "__main__":
                 model_name=model_name,
                 max_length=max_length
             )
+
+            wandb_project_name = f'WreteEntailmentUI_{model_name}_singleExp_EarlyStopping'
+
 
             logger = pl_loggers.WandbLogger(
                 save_dir=str(LOGS_DIR),

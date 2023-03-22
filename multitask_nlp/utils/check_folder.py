@@ -6,10 +6,11 @@ model_names = ["luminous-pig-5", "genial-aardvark-6", "lemon-bush-17", "vermilio
               "dancing-tiger-1", "abundant-horse-1", "floating-fish-2", "beaming-dog-7", "bright-peony-2", \
               "vermilion-mandu-36", "cosmic-mountain-2", "charmed-dust-5", "zesty-planet-5", "stoic-puddle-6" ]
 
+nerp_ner_prosa_model_names = ["genial-aardvark-6", "pleasant-pine-5", "revived-lion-4", "kind-galaxy-3", "genial-galaxy-2"]
 
 
 if __name__ == "__main__":
-    for model_name in model_names: 
+    for model_name in nerp_ner_prosa_model_names: 
         path = CHECKPOINTS_DIR / model_name
         isExist = os.path.exists(path)
         if isExist:
