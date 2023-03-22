@@ -119,6 +119,7 @@ class BaseDataModule(LightningDataModule):
         """Returns test dataloader."""
         return self._dataloader(self.test_split_names)
 
+
     def whole_dataset_dataloader(self, shuffle: bool = True) -> DataLoader:
         """Returns dataloader containing data from all splits.
 
