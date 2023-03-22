@@ -28,7 +28,7 @@ from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
 from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
 from multitask_nlp.datasets.conll2003.conll2003 import Conll2003DataModule
 
-from multitask_nlp.learning.train_test import train_test
+from multitask_nlp.learning.train_test import train_test, load_model
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
@@ -221,13 +221,24 @@ def run_experiments():
                     hparams_copy["dataset"] = datasets_string
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
-
-                    run_training(
-                        model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
-                        custom_callbacks=mtl_custom_callbacks,
-                        lightning_model_kwargs=used_lightning_model_kwargs,
+                    
+                    loaded_model = load_model(
+                        datamodule=mtl_datamodule,
+                        model=model,
+                        epochs=epochs,
+                        lr=lr_rate,
+                        weight_decay=weight_decay,
+                        use_cuda=use_cuda,
+                        lightning_model_kwargs=lightning_model_kwargs,
                         trainer_kwargs=trainer_kwargs
                     )
+
+                    # run_training(
+                    #     model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
+                    #     custom_callbacks=mtl_custom_callbacks,
+                    #     lightning_model_kwargs=used_lightning_model_kwargs,
+                    #     trainer_kwargs=trainer_kwargs
+                    # )
 
 
 

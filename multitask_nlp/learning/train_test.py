@@ -15,7 +15,6 @@ from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 def load_model(
     datamodule: Union[BaseDataModule, MultiTaskDataModule],
     model: nn.Module,
-    extra_test_datamodules: Optional[List[BaseDataModule]] = None,
     lr: float = 1e-2,
     weight_decay: float = 0.0,
     lightning_model_kwargs=None,
@@ -26,12 +25,11 @@ def load_model(
         tasks_datamodules = datamodule.tasks_datamodules
     else:
         tasks_datamodules = [datamodule]
-
+    print(tasks_datamodules)
     lightning_model_kwargs = lightning_model_kwargs or {}
     lightning_model = Model(
         model=model,
         tasks_datamodules=tasks_datamodules,
-        extra_test_datamodules=extra_test_datamodules,
         lr=lr,
         weight_decay=weight_decay,
         **lightning_model_kwargs

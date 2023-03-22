@@ -52,7 +52,7 @@ class Model(pl.LightningModule):
         uncertainty_loss_lr: float = 2.5e-3,
         scaling_type: Optional[ScalingType] = None,
         tasks_to_not_log_detailed_metrics: List[str] = None,
-        extra_test_datamodules: Optional[List[BaseDataModule]] = None,
+        extra_test_datamodules: Optional[List[BaseDataModule]] = [],
         **kwargs
     ):
         """Initializes Lightning Module.
@@ -116,6 +116,8 @@ class Model(pl.LightningModule):
         )
         metric_managers.append(overall_metric_manager)
         self.metric_managers = nn.ModuleList(metric_managers)
+        self.save_hyperparameters()
+        self.starter, self.ender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
 
     def forward(self, x: MODEL_INPUT_TYPE):
         x = self.model(x)
@@ -215,6 +217,7 @@ class Model(pl.LightningModule):
         loss = self.loss_module.forward(x, y_true, output)
         return task_name, task_type, output, loss
 
+
     def training_step(self, batch, batch_idx, optimizer_idx=None):
         task_name, task_type, output, loss = self._shared_step(batch)
         self.log("train_loss", loss.item(), on_step=True, on_epoch=True, prog_bar=True)
@@ -247,6 +250,25 @@ class Model(pl.LightningModule):
         self._log_metrics_at_step_end(x, output, y_true, "test")
         return {"test_loss": loss, 'y_pred': output, 'y_true': y_true,
                 'task_name': task_name, 'task_type': task_type}
+    
+    def predict_step(self, batch, batch_idx, dataloader_idx=0):
+        task_name, task_type, output, loss = self._shared_step(batch)
+        self.log("predict_loss", loss.item(), on_epoch=True, prog_bar=True)
+        self._log_losses_per_tasks(task_name, loss, 'predict')
+        torch.cuda.empty_cache()
+        minibatch_model_in, _ = batch
+        self.starter.record()
+        _ = self(minibatch_model_in)
+        self.ender.record()
+        torch.cuda.synchronize()
+        inference_time = self.starter.elapsed_time(self.ender)
+        print("time", inference_time*1e-3)
+                
+        x, y_true = batch
+        self._log_metrics_at_step_end(x, output, y_true, "predict")
+        return {"predict_loss": loss, 'y_pred': output, 'y_true': y_true,
+                'task_name': task_name, 'task_type': task_type}
+            
 
     def validation_epoch_end(self, outputs):
         self._log_metrics_at_epoch_end(split='valid', batch_outputs=outputs)

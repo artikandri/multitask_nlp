@@ -78,6 +78,11 @@ class MultiTaskDataModule(LightningDataModule):
         task_dataloaders = [datamodule.test_dataloader() for datamodule in self.tasks_datamodules]
         dataset = RoundRobinMTDataset(task_dataloaders)
         return self._dataloader(dataset=dataset, shuffle=False)
+    
+    def get_dataset(self, splits: List[str]) -> RoundRobinMTDataset:
+        task_dataloaders = [datamodule.test_dataloader() for datamodule in self.tasks_datamodules]
+        dataset = RoundRobinMTDataset(task_dataloaders)
+        return dataset
 
     def _dataloader(self, dataset: Dataset, shuffle: bool) -> DataLoader:
         """Returns dataloader for a given dataset object.

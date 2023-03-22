@@ -84,8 +84,6 @@ class BaseDataModule(LightningDataModule):
         data = self.data
         annotations = self.annotations
 
-        print(data, annotations)
-        
         self.text_id_idx_dict = (
             data.loc[:, ["text_id"]]
                 .reset_index()

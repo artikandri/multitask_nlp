@@ -89,6 +89,7 @@ class RoundRobinMTDataset(MultiTaskDataset):
         self.task_loaders_batches_indices = task_loaders_batches_indices
 
     def _get_task_id(self, index: int) -> int:
+        #  index = index if index in self.task_loaders_batches_indices else 0
         return self.task_loaders_batches_indices[index]
 
     def __len__(self) -> int:
@@ -108,10 +109,12 @@ class SequentialMTDataset(MultiTaskDataset):
     def __init__(self, task_dataloaders: List[DataLoader], steps: int, **kwargs):
         super().__init__(task_dataloaders, **kwargs)
         self.task_ids = list(range(len(self.task_dataloaders)))
+        print(self.task_dataloaders, self.task_ids)
         self.steps = steps
         self.current_index = 0
 
     def _get_task_id(self, index: int) -> int:
+        print(index, self.current_index, self.task_ids)
         task_id = self.task_ids[self.current_index]
         self.current_index = (self.current_index + 1) % len(self.task_ids)
         return task_id

@@ -46,7 +46,6 @@ class MultitaskTransformer(nn.Module):
             ValueError: When task type is incorrect.
         """
         super().__init__()
-        self.save_hyperparameters()
 
         if model_name in TRANSFORMER_MODEL_STRINGS:
             model_name = TRANSFORMER_MODEL_STRINGS[model_name]
@@ -75,6 +74,7 @@ class MultitaskTransformer(nn.Module):
             tasks_datamodules = [tasks_datamodules]
 
         for task_dm in tasks_datamodules:
+            print(task_dm)
             task_kind = task_dm.task_type
             task_category = task_dm.task_category
 
@@ -97,14 +97,17 @@ class MultitaskTransformer(nn.Module):
         self.task_heads = task_heads
 
     def forward(self, features: MODEL_INPUT_TYPE) -> MODEL_OUTPUT_TYPE:
+        # features['task_type'] = features['task_type'] if 'task_type' in features else 'classification'
         if features['task_type'] == 'sequence labeling':
             return self._process_for_sequence_labeling(features)
         else:
             return self._process_batch(features)
+    
 
     def _process_batch(self, features: MODEL_INPUT_TYPE) -> torch.Tensor:
         """Processes batches for classification or regression tasks."""
-
+        
+        assert 'raw_texts' in features
         texts_raw = features['raw_texts'].tolist()
         if 'raw_2nd_texts' in features.keys():
             texts_2nd_raw = features['raw_2nd_texts'].tolist()
