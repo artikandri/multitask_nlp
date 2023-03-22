@@ -10,7 +10,7 @@ nerp_ner_prosa_model_names = ["genial-aardvark-6", "pleasant-pine-5", "revived-l
 
 
 if __name__ == "__main__":
-    for model_name in nerp_ner_prosa_model_names: 
+    for model_name in model_names: 
         path = CHECKPOINTS_DIR / model_name
         isExist = os.path.exists(path)
         if isExist:
