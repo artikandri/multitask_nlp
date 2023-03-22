@@ -25,9 +25,9 @@ if __name__ == "__main__":
 
     rep_num = 5
     model_types = ['multitask_transformer']
-    model_names = ['indo-roberta']
+    model_names = ['xlmr']
 
-    wandb_project_name = 'NerpNerProsa_indo-roberta_singleExp_EarlyStopping'
+    wandb_project_name = 'NerpNerProsa_xlmr_singleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-4
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     weight_decay = 0.01
     warmup_proportion = 0.1
 
-    use_cuda = False
+    use_cuda = True
     custom_callbacks: List[pl.Callback] = [
         LearningRateMonitor()
     ]
