@@ -22,7 +22,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 RANDOM_SEED = 2023
 
 analyze_latest_model = True
-ckpt_path = CHECKPOINTS_DIR / "sweet-wave-2"
+ckpt_path = CHECKPOINTS_DIR / "dancing-tiger-1"
 
 if __name__ == "__main__":
     datamodule_cls = SNLI_DataModule
