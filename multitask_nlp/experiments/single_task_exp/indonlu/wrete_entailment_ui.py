@@ -21,7 +21,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
 analyze_latest_model = True
-ckpt_path = CHECKPOINTS_DIR / "lemon-bush-17"
+ckpt_path = CHECKPOINTS_DIR / "smooth-serenity-10"
 
 if __name__ == "__main__":
     datamodule_cls = WreteEntailmentUiDataModule
