@@ -79,31 +79,6 @@ if __name__ == "__main__":
                 max_length=max_length
             )
 
-            logger = pl_loggers.WandbLogger(
-                save_dir=str(LOGS_DIR),
-                config=hparams,
-                project=wandb_project_name,
-                log_model=False,
-            )
-
-            exp_custom_callbacks = copy(custom_callbacks)
-            exp_custom_callbacks.extend(
-                [
-                    ModelCheckpoint(
-                        dirpath=CHECKPOINTS_DIR / logger.experiment.name,
-                        save_top_k=1,
-                        monitor='valid_overall_score',
-                        mode='max',
-                    ),
-                    EarlyStopping(
-                        monitor='valid_overall_score',
-                        patience=5,
-                        mode='max'
-                    )
-                ]
-            )
-
-
             if analyze_latest_model and os.path.exists(ckpt_path):
                 ckpt_files = os.listdir(ckpt_path)
                 if ckpt_files:
@@ -112,6 +87,28 @@ if __name__ == "__main__":
                     size = get_size(model)
                     total_params, trainable_params = get_params(model)
             else:
+                logger = pl_loggers.WandbLogger(
+                    save_dir=str(LOGS_DIR),
+                    config=hparams,
+                    project=wandb_project_name,
+                    log_model=False,
+                )
+                exp_custom_callbacks = copy(custom_callbacks)
+                exp_custom_callbacks.extend(
+                    [
+                        ModelCheckpoint(
+                            dirpath=CHECKPOINTS_DIR / logger.experiment.name,
+                            save_top_k=1,
+                            monitor='valid_overall_score',
+                            mode='max',
+                        ),
+                        EarlyStopping(
+                            monitor='valid_overall_score',
+                            patience=5,
+                            mode='max'
+                        )
+                    ]
+                )
                 train_test(
                     datamodule=data_module,
                     model=model,
