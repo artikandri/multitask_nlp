@@ -40,7 +40,6 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 analyze_latest_model = True
-ckpt_path = CHECKPOINTS_DIR / "beaming-dog-7"
 
 
 def run_experiments():
@@ -229,6 +228,11 @@ def run_experiments():
 
 
                     if analyze_latest_model:
+                        ckpt_paths = {
+                            "xlmr": "beaming-dog-7",
+                            "indo-roberta": "comic-river-7"
+                        }
+                        ckpt_path = CHECKPOINTS_DIR / ckpt_paths[model_name]
                         if  os.path.exists(ckpt_path):
                             ckpt_files = os.listdir(ckpt_path)
                             if ckpt_files:
