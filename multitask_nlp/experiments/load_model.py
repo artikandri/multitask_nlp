@@ -43,42 +43,14 @@ def get_size(model):
     return size_all_mb
     
 def load_model(
-    datamodule: Union[BaseDataModule, MultiTaskDataModule],
     model: nn.Module,
     ckpt_path=None,
-    lr: float = 1e-2,
-    weight_decay: float = 0.0,
-    **kwargs
 ):
-    tasks_datamodules = []  
-    if isinstance(datamodule, MultiTaskDataModule):
-        tasks_datamodules = datamodule.tasks_datamodules
-    else:
-        tasks_datamodules = [datamodule]
-    
-    lightning_model_kwargs = {
-        'lr_scheduling': lr_scheduling,
-        'warmup_proportion': warmup_proportion,
-        'tasks_to_not_log_detailed_metrics': task_to_not_log_detailed
-    }
         
-    lightning_model = Model(
-        model=model,
-        tasks_datamodules=tasks_datamodules,
-        lr=lr,
-        weight_decay=weight_decay,
-        **lightning_model_kwargs
-    )
-    
-    inference_metrics = 0
     if ckpt_path:
         checkpoint = torch.load(ckpt_path)
         model.load_state_dict(checkpoint['state_dict'], strict=False)
         model.eval()
-        dataset = datamodule.get_dataset(['test'])
-        
-        # with torch.no_grad():
-        #     out_data = model(dataset, task_type="classification")
 
     return model
 

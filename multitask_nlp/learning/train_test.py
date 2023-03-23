@@ -12,32 +12,18 @@ from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 from multitask_nlp.learning.lightning_model import Model
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 
-def load_model(
-    datamodule: Union[BaseDataModule, MultiTaskDataModule],
-    model: nn.Module,
-    lr: float = 1e-2,
-    weight_decay: float = 0.0,
-    lightning_model_kwargs=None,
-    ckpt_path=None,
-    **kwargs
-):
-    if isinstance(datamodule, MultiTaskDataModule):
-        tasks_datamodules = datamodule.tasks_datamodules
-    else:
-        tasks_datamodules = [datamodule]
-    print(tasks_datamodules)
-    lightning_model_kwargs = lightning_model_kwargs or {}
-    lightning_model = Model(
-        model=model,
-        tasks_datamodules=tasks_datamodules,
-        lr=lr,
-        weight_decay=weight_decay,
-        **lightning_model_kwargs
-    )
-    if ckpt_path:
-        lightning_model.load_from_checkpoint(ckpt_path)
 
-    return lightning_model
+def load_model(
+    model: nn.Module,
+    ckpt_path=None,
+):
+    if ckpt_path:
+        checkpoint = torch.load(ckpt_path)
+        model.load_state_dict(checkpoint['state_dict'], strict=False)
+        model.eval()
+
+    return model
+
 
 def train_test(
     datamodule: Union[BaseDataModule, MultiTaskDataModule],

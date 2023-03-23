@@ -23,7 +23,7 @@ from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSenti
 from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 
-from multitask_nlp.learning.train_test import train_test
+from multitask_nlp.learning.train_test import train_test, load_model
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
@@ -40,6 +40,7 @@ wandb_project_name = 'MTL_Indo_indo-roberta_EarlyStopping'
 RANDOM_SEED = 2023
 
 stl_experiments = False
+analyze_latest_model = False
 
 if use_cuda:
     torch.cuda.empty_cache()
@@ -243,13 +244,18 @@ def run_experiments():
                         hparams_copy["mt_dataset_type"] = multitask_dataset_type
                         hparams_copy.update(multitask_dataset_args)
 
-                        run_training(
-                            model_to_finetune, data_module, hparams_copy,
-                            epochs, lr_rate, weight_decay,
-                            custom_callbacks=custom_callbacks,
-                            lightning_model_kwargs=lightning_model_kwargs,
-                            trainer_kwargs=trainer_kwargs
-                        )
+                        if analyze_latest_model:
+                            ckpt_path = CHECKPOINTS_DIR / "upbeat-spaceship-21"
+                            if os.path.exists(ckpt_path):
+                                model = load_model(model, ckpt_path=ckpt_path)
+                        else:
+                            run_training(
+                                model_to_finetune, data_module, hparams_copy,
+                                epochs, lr_rate, weight_decay,
+                                custom_callbacks=custom_callbacks,
+                                lightning_model_kwargs=lightning_model_kwargs,
+                                trainer_kwargs=trainer_kwargs
+                            )
 
 
 def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, custom_callbacks,

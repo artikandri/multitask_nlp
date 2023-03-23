@@ -12,7 +12,8 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
 
 from multitask_nlp.datasets.studemo.studemo import StudEmoDataModule
-from multitask_nlp.learning.train_test import train_test
+from multitask_nlp.learning.train_test import train_test, load_model
+from multitask_nlp.utils.analyze_models import get_params, get_size
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
@@ -21,6 +22,9 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
+
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "celestial-darkness-12"
 
 if __name__ == "__main__":
     datamodule_cls = StudEmoDataModule
@@ -99,15 +103,24 @@ if __name__ == "__main__":
                 ]
             )
 
-            train_test(
-                datamodule=data_module,
-                model=model,
-                epochs=epochs,
-                lr=lr_rate,
-                weight_decay=weight_decay,
-                use_cuda=use_cuda,
-                logger=logger,
-                custom_callbacks=exp_custom_callbacks,
-                lightning_model_kwargs=lightning_model_kwargs
-            )
-            logger.experiment.finish()
+
+            if analyze_latest_model and os.path.exists(ckpt_path):
+                ckpt_files = os.listdir(ckpt_path)
+                if ckpt_files:
+                    ckpt_file = ckpt_files[0]
+                    model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                    size = get_size(model)
+                    total_params, trainable_params = get_params(model)
+            else:
+                train_test(
+                    datamodule=data_module,
+                    model=model,
+                    epochs=epochs,
+                    lr=lr_rate,
+                    weight_decay=weight_decay,
+                    use_cuda=use_cuda,
+                    logger=logger,
+                    custom_callbacks=exp_custom_callbacks,
+                    lightning_model_kwargs=lightning_model_kwargs
+                )
+                logger.experiment.finish()
