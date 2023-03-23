@@ -78,13 +78,16 @@ if __name__ == "__main__":
             )
 
 
-            if analyze_latest_model and os.path.exists(ckpt_path):
-                ckpt_files = os.listdir(ckpt_path)
-                if ckpt_files:
-                    ckpt_file = ckpt_files[0]
-                    model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
-                    size = get_size(model)
-                    total_params, trainable_params = get_params(model)
+            if analyze_latest_model:
+                if  os.path.exists(ckpt_path):
+                    ckpt_files = os.listdir(ckpt_path)
+                    if ckpt_files:
+                        ckpt_file = ckpt_files[0]
+                        model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                        size = get_size(model)
+                        total_params, trainable_params = get_params(model)
+                else:
+                    print("checkpoint path doesnt exist")
             else:
                 logger = pl_loggers.WandbLogger(
                     save_dir=str(LOGS_DIR),
