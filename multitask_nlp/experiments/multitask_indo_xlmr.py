@@ -79,12 +79,12 @@ def run_experiments():
 
     task_datamodules_setup = {
         CasaAbsaProsaDataModule: {"batch_size": batch_size},
-        EmotEmotionTwitterDataModule: {"batch_size": batch_size},
-        HoasaAbsaAiryDataModule: {"batch_size": batch_size},
+        # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        # HoasaAbsaAiryDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
         FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
-        NerGritDataModule: {"batch_size": batch_size},
-        KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
+        # NerGritDataModule: {"batch_size": batch_size},
+        # KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
         NerpNerProsaDataModule: {"batch_size": batch_size},
         SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
         IndonesianEmotionDataModule: {"batch_size": batch_size},
@@ -223,12 +223,23 @@ def run_experiments():
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
 
-                    run_training(
-                        model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
-                        custom_callbacks=mtl_custom_callbacks,
-                        lightning_model_kwargs=used_lightning_model_kwargs,
-                        trainer_kwargs=trainer_kwargs
-                    )
+                    if analyze_latest_model:
+                        if  os.path.exists(ckpt_path):
+                            ckpt_files = os.listdir(ckpt_path)
+                            if ckpt_files:
+                                ckpt_file = ckpt_files[0]
+                                model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                                size = get_size(model)
+                                total_params, trainable_params = get_params(model)
+                        else:
+                            print("checkpoint path doesnt exist")
+                    else:
+                        run_training(
+                            model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
+                            custom_callbacks=mtl_custom_callbacks,
+                            lightning_model_kwargs=used_lightning_model_kwargs,
+                            trainer_kwargs=trainer_kwargs
+                        )
 
                     # Fine-tuning of MTL model for a single task
                     for data_module in tasks_datamodules:
