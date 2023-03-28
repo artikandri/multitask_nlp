@@ -263,7 +263,6 @@ class Model(pl.LightningModule):
         torch.cuda.synchronize()
         
         inference_time = self.starter.elapsed_time(self.ender)/1000
-        print(f"inference time for dataloader nr {dataloader_idx}, epoch nr {batch_idx}:", inference_time)
                 
         x, y_true = batch
         return {"predict_loss": loss, 'y_pred': output, 'y_true': y_true,

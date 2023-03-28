@@ -1,1 +1,7 @@
-average inference time for 6 predictions (10 epochs): 0.055972522417704264
+CasaAbsaProsa_indo-bert_singleExp_EarlyStopping
+ckpt_path: /notebooks/multitask_nlp/storage/checkpoints/still-water-1
+model size: 421.8067092895508
+number of params: 110572050
+number of trainable params: 110572050
+average inference time: 0.055895310401916504
+nr of epochs: 10

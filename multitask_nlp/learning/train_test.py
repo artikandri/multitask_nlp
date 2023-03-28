@@ -8,7 +8,6 @@ from pytorch_lightning import Callback, loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch import nn
 
-from multitask_nlp.utils.file_loading import write_txt_file
 from multitask_nlp.datasets.base_datamodule import BaseDataModule
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 from multitask_nlp.learning.lightning_model import Model
@@ -129,12 +128,8 @@ def load_and_predict(
     avg = sum(inference_time) / len (inference_time)
     
     text = f"average inference time for {len(predictions)} predictions ({epochs} epochs): {avg}"
-    if exp_name is None:
-        exp_name = f"experiment-{date.today()}"
-    write_txt_file(text, exp_name)
-    print(text)
     
-    return predictions
+    return predictions, avg
 
 
 def train_test(
