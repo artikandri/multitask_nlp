@@ -1,0 +1,9 @@
+MTL_Indo_xlmr_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/vermilion-mandu-36
+model size: 1060.8039283752441
+number of params: 278081329
+number of trainable params: 278081329
+average inference time: 0.04071482032613552
+nr of epochs: 10
+nr of rep: 2
+datetime: 28/03/2023 23:32:59
