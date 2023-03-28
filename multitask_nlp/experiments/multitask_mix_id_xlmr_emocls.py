@@ -23,7 +23,10 @@ from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
 from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
 from multitask_nlp.datasets.conll2003.conll2003 import Conll2003DataModule
 
-from multitask_nlp.learning.train_test import train_test
+from multitask_nlp.learning.train_test import train_test, load_model, load_and_predict
+from multitask_nlp.utils.file_loading import write_as_txt_file
+from multitask_nlp.utils.analyze_models import get_size, get_params
+
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
@@ -38,10 +41,12 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR 
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr', 'indo-roberta']
+    model_names = ['xlmr']
     rep_num = 1
 
     loss_args_list = [(False, None)]
@@ -223,13 +228,55 @@ def run_experiments():
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
 
-                    run_training(
-                        model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
-                        custom_callbacks=mtl_custom_callbacks,
-                        lightning_model_kwargs=used_lightning_model_kwargs,
-                        trainer_kwargs=trainer_kwargs, 
-                        project_name=wandb_project_name
-                    )
+                    if analyze_latest_model:
+                        ckpt_paths = {
+                            "xlmr": "logical-sky-4",
+                        }
+                        ckpt_path = CHECKPOINTS_DIR / ckpt_paths[model_name]
+                        if  os.path.exists(ckpt_path):
+                            ckpt_files = os.listdir(ckpt_path)
+                            if ckpt_files:
+                                ckpt_file = ckpt_files[0]
+                                # device = torch.device("cuda")
+                                model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                                # model2.to(device)
+                                size = get_size(model2)
+                                total_params, trainable_params = get_params(model2)
+                                exp_custom_callbacks = copy(custom_callbacks)
+                                
+                                predictions, avg_time = load_and_predict(
+                                    datamodule=data_module,
+                                    model=model2,
+                                    epochs=epochs,
+                                    lr=lr_rate,
+                                    logger=None,
+                                    exp_name=wandb_project_name,
+                                    weight_decay=weight_decay,
+                                    use_cuda=use_cuda,
+                                    custom_callbacks=exp_custom_callbacks,
+                                    lightning_model_kwargs=lightning_model_kwargs
+                                )
+                                
+                                results = [wandb_project_name,
+                                        f"ckpt_path: {ckpt_path}" ,
+                                        f"model size: {size}" ,
+                                        f"number of params: {total_params}",
+                                        f"number of trainable params: {trainable_params}" ,
+                                        f"average inference time: {avg_time}",
+                                        f"nr of epochs: {epochs}",
+                                        f"nr of rep: {i}"]
+                                        
+                                write_as_txt_file(results, f"{wandb_project_name}-{i}")  
+                        else:
+                            print("checkpoint path doesnt exist")
+                    else:
+                        run_training(
+                            model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
+                            custom_callbacks=mtl_custom_callbacks,
+                            lightning_model_kwargs=used_lightning_model_kwargs,
+                            trainer_kwargs=trainer_kwargs, 
+                            project_name=wandb_project_name
+                        )
 
 
 
