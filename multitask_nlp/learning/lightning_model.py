@@ -252,21 +252,22 @@ class Model(pl.LightningModule):
                 'task_name': task_name, 'task_type': task_type}
     
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
+        
         task_name, task_type, output, loss = self._shared_step(batch)
+        
         torch.cuda.empty_cache()
         minibatch_model_in, _ = batch
-
         self.starter.record()
         _ = self(minibatch_model_in)
         self.ender.record()
         torch.cuda.synchronize()
         
-        inference_time = self.starter.elapsed_time(self.ender)
-        print(f"time for {dataloader_idx}:", inference_time*1e-3)
+        inference_time = self.starter.elapsed_time(self.ender)/1000
+        print(f"inference time for dataloader nr {dataloader_idx}, epoch nr {batch_idx}:", inference_time)
                 
         x, y_true = batch
         return {"predict_loss": loss, 'y_pred': output, 'y_true': y_true,
-                'task_name': task_name, 'task_type': task_type}
+                'task_name': task_name, 'task_type': task_type, 'inference_time': inference_time}
             
 
     def validation_epoch_end(self, outputs):

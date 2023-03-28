@@ -29,7 +29,7 @@ def load_and_predict(
     datamodule: Union[BaseDataModule, MultiTaskDataModule],
     model: nn.Module,
     extra_test_datamodules: Optional[List[BaseDataModule]] = None,
-    epochs: int = 6,
+    epochs: int = 10,
     lr: float = 1e-2,
     weight_decay: float = 0.0,
     use_cuda: bool = False,
@@ -119,8 +119,14 @@ def load_and_predict(
 
     test_dataloaders = [test_loader] + [extra_test_data_module.whole_dataset_dataloader() for
                                         extra_test_data_module in extra_test_datamodules]
+    
     predictions = trainer.predict(ckpt_path=ckpt_path, model=lightning_model, dataloaders=test_dataloaders)
-    print(predictions)
+    
+    inference_time = [pred['inference_time'] for pred in predictions]
+    print(inference_time)
+    avg = sum(inference_time) / len (inference_time)
+    print(f"average inference time for {len(predictions)} predictions ({epochs} epochs): {avg}")
+    
     return predictions
 
 
