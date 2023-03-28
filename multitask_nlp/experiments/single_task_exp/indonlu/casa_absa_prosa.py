@@ -10,10 +10,11 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import torch
 from pytorch_lightning import loggers as pl_loggers
+from pytorch_lightning import Trainer 
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
-from multitask_nlp.learning.train_test import train_test, load_model
+from multitask_nlp.learning.train_test import train_test, load_model, load_and_predict
 from multitask_nlp.utils.analyze_models import get_params, get_size
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
@@ -23,15 +24,15 @@ os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
 analyze_latest_model = True
-ckpt_path = CHECKPOINTS_DIR / "decent-wood-12"
+ckpt_path = CHECKPOINTS_DIR / "neat-wave-5"
 
 
 if __name__ == "__main__":
     datamodule_cls = CasaAbsaProsaDataModule
 
-    rep_num = 5
+    rep_num = 1
     model_types = ['multitask_transformer']
-    model_names = ['xlmr', 'indo-roberta']
+    model_names = ['indo-bert']
 
     max_length = 256
     lr_rate = 1e-4
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     weight_decay = 0.01
     warmup_proportion = 0.1
 
-    use_cuda = False
+    use_cuda = True
     custom_callbacks: List[pl.Callback] = [
         LearningRateMonitor()
     ]
@@ -93,9 +94,26 @@ if __name__ == "__main__":
                     ckpt_files = os.listdir(ckpt_path)
                     if ckpt_files:
                         ckpt_file = ckpt_files[0]
-                        model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
-                        size = get_size(model)
-                        total_params, trainable_params = get_params(model)
+                        device = torch.device("cuda")
+                        trainer = Trainer()
+                        model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                        model2.to(device)
+                        size = get_size(model2)
+                        total_params, trainable_params = get_params(model2)
+                        exp_custom_callbacks = copy(custom_callbacks)
+                    
+                        
+                        load_and_predict(
+                            datamodule=data_module,
+                            model=model2,
+                            epochs=epochs,
+                            lr=lr_rate,
+                            logger=None,
+                            weight_decay=weight_decay,
+                            use_cuda=use_cuda,
+                            custom_callbacks=exp_custom_callbacks,
+                            lightning_model_kwargs=lightning_model_kwargs
+                        )
                 else:
                     print("checkpoint path doesnt exist")
             else:

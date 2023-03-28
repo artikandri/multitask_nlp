@@ -33,7 +33,6 @@ def load_and_predict(
     lr: float = 1e-2,
     weight_decay: float = 0.0,
     use_cuda: bool = False,
-    logger=None,
     log_model: Union[str, bool] = False,
     custom_callbacks: Optional[List[Callback]] = None,
     lightning_model_kwargs=None,
@@ -93,8 +92,6 @@ def load_and_predict(
         weight_decay=weight_decay,
         **lightning_model_kwargs
     )
-    if logger is None:
-        logger = pl_loggers.WandbLogger(save_dir=LOGS_DIR, log_model=log_model)
 
     train_loader = datamodule.train_dataloader()
     val_loader = datamodule.val_dataloader()
@@ -105,27 +102,16 @@ def load_and_predict(
     else:
         callbacks = []
 
-    # When none of the callbacks is ModelCheckpoint, a new default one is added which saves the
-    # model with the minimum valid loss.
-    if not any(isinstance(callback, ModelCheckpoint) for callback in callbacks):
-        checkpoint_dir = CHECKPOINTS_DIR / logger.experiment.name
-        callbacks.append(
-            ModelCheckpoint(
-                dirpath=checkpoint_dir,
-                save_top_k=1,
-                monitor='valid_loss',
-                mode='min',
-            )
-        )
     _use_cuda = use_cuda and torch.cuda.is_available()
 
     trainer_kwargs = trainer_kwargs or {}
     trainer = pl.Trainer(
         gpus=1 if _use_cuda else 0,
+        accelerator="gpu",
         max_epochs=epochs,
         progress_bar_refresh_rate=20,
         log_every_n_steps=10,
-        logger=logger,
+        logger=None,
         callbacks=callbacks,
         num_sanity_val_steps=2,
         **trainer_kwargs
@@ -133,7 +119,9 @@ def load_and_predict(
 
     test_dataloaders = [test_loader] + [extra_test_data_module.whole_dataset_dataloader() for
                                         extra_test_data_module in extra_test_datamodules]
-    trainer.predict(ckpt_path=ckpt_path, dataloaders=test_dataloaders)
+    predictions = trainer.predict(ckpt_path=ckpt_path, model=lightning_model, dataloaders=test_dataloaders)
+    print(predictions)
+    return predictions
 
 
 def train_test(

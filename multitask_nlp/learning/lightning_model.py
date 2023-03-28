@@ -253,8 +253,6 @@ class Model(pl.LightningModule):
     
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
         task_name, task_type, output, loss = self._shared_step(batch)
-        self.log("predict_loss", loss.item(), on_epoch=True, prog_bar=True)
-        self._log_losses_per_tasks(task_name, loss, 'predict')
         torch.cuda.empty_cache()
         minibatch_model_in, _ = batch
 
@@ -264,10 +262,9 @@ class Model(pl.LightningModule):
         torch.cuda.synchronize()
         
         inference_time = self.starter.elapsed_time(self.ender)
-        print("time", inference_time*1e-3)
+        print(f"time for {dataloader_idx}:", inference_time*1e-3)
                 
         x, y_true = batch
-        self._log_metrics_at_step_end(x, output, y_true, "predict")
         return {"predict_loss": loss, 'y_pred': output, 'y_true': y_true,
                 'task_name': task_name, 'task_type': task_type}
             
