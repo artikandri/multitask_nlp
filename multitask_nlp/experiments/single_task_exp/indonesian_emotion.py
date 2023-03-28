@@ -29,7 +29,7 @@ ckpt_path = CHECKPOINTS_DIR / "apricot-oath-8"
 if __name__ == "__main__":
     datamodule_cls = IndonesianEmotionDataModule
 
-    rep_num = 5
+    rep_num = 1
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
 
@@ -115,14 +115,15 @@ if __name__ == "__main__":
                         )
                         
                         results = [wandb_project_name,
-                                f"ckpt_path: {ckpt_path}" ,
-                                f"model size: {size}" ,
-                                f"number of params: {total_params}",
-                                f"number of trainable params: {trainable_params}" ,
-                                f"average inference time: {avg_time}",
-                                f"nr of epochs: {epochs}"]
-                                
-                        write_as_txt_file(results, wandb_project_name) 
+                                        f"ckpt_path: {ckpt_path}" ,
+                                        f"model size: {size}" ,
+                                        f"number of params: {total_params}",
+                                        f"number of trainable params: {trainable_params}" ,
+                                        f"average inference time: {avg_time}",
+                                        f"nr of epochs: {epochs}",
+                                        f"nr of rep: {i}"]
+                                        
+                                write_as_txt_file(results, f"{wandb_project_name}-{i}")  
                 else:
                     print("checkpoint path doesnt exist")
             else:

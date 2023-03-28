@@ -2,6 +2,8 @@ from pathlib import Path
 from typing import List, Union
 from multitask_nlp.settings import RESULTS_DIR
 
+from datetime import date, datetime
+
 
 def read_lines_from_txt_file(file_path: Union[str, Path]) -> List[str]:
     """Reads lines from given text file.
@@ -13,9 +15,12 @@ def read_lines_from_txt_file(file_path: Union[str, Path]) -> List[str]:
         lines = f.read().splitlines()
     return lines
 
-def write_as_txt_file(txt="", file_name=""):
+def write_as_txt_file(txt="", file_name="", add_datetime=True):
     if file_name is None:
         file_name = f"experiment-{date.today()}"
+    if add_datetime:
+        txt.append(f"datetime: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}")
+    
     path = RESULTS_DIR / f'{file_name}.txt'
     with open(path, 'w') as f:
         f.write('\n'.join(txt))

@@ -263,9 +263,10 @@ def run_experiments():
                                         f"number of params: {total_params}",
                                         f"number of trainable params: {trainable_params}" ,
                                         f"average inference time: {avg_time}",
-                                        f"nr of epochs: {epochs}"]
+                                        f"nr of epochs: {epochs}",
+                                        f"nr of rep: {i}"]
                                         
-                                write_as_txt_file(results, wandb_project_name) 
+                                write_as_txt_file(results, f"{wandb_project_name}-{i}")  
                         else:
                             print("checkpoint path doesnt exist")
                     else:
