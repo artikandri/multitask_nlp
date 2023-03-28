@@ -38,7 +38,7 @@ stl_experiments = True
 def run_experiments():
     model_types = ['multitask_transformer']
     model_names = ['polish-roberta']
-    rep_num = 5
+    rep_num = 1
 
     loss_args_list = [(False, None), (False, ScalingType.LOG)]
     multitask_dataset_types = ['round_robin', 'sampling',

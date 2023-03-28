@@ -26,7 +26,7 @@ if __name__ == "__main__":
     datamodule_cls = NKJP1M_DataModule
     extra_test_datamodule_cls_list = [CCPL_DataModule]
 
-    rep_num = 5
+    rep_num = 1
     model_types = ['multitask_transformer']
     model_names = ['polish-roberta', 'polish-distilroberta']
 

@@ -30,7 +30,7 @@ ckpt_path = CHECKPOINTS_DIR / "lemon-bush-17"
 if __name__ == "__main__":
     datamodule_cls = SmsaDocSentimentProsaDataModule
 
-    rep_num = 5
+    rep_num = 1
     model_types = ['multitask_transformer']
     model_names = ['xlmr', 'indo-roberta']
 

@@ -46,7 +46,7 @@ stl_experiments = False
 def run_experiments():
     model_types = ['multitask_transformer']
     model_names = ['distilbert', 'bert']
-    rep_num = 5
+    rep_num = 1
 
     loss_args_list = [(True,  None)]
     multitask_dataset_types = ['round_robin']

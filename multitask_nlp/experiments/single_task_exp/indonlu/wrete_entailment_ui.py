@@ -28,7 +28,7 @@ ckpt_path = CHECKPOINTS_DIR / "smooth-serenity-10"
 if __name__ == "__main__":
     datamodule_cls = WreteEntailmentUiDataModule
 
-    rep_num = 5
+    rep_num = 1
     model_types = ['multitask_transformer']
     model_names = ['xlmr', 'indo-roberta']
 

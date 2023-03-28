@@ -26,7 +26,7 @@ RANDOM_SEED = 2023
 if __name__ == "__main__":
     datamodule_cls = HoasaAbsaAiryDataModule
 
-    rep_num = 5
+    rep_num = 1
     model_types = ['multitask_transformer']
     model_names = ['xlmr', 'indo-roberta']
 

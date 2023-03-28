@@ -28,7 +28,7 @@ ckpt_path = CHECKPOINTS_DIR / "floral-cosmos-11"
 if __name__ == "__main__":
     datamodule_cls = NerpNerProsaDataModule
 
-    rep_num = 5
+    rep_num = 1
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
 
