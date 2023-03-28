@@ -36,7 +36,7 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 
 os.environ["WANDB_START_METHOD"] = "thread"
 
-use_cuda = True
+use_cuda = False
 RANDOM_SEED = 2023
 
 stl_experiments = False
