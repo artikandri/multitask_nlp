@@ -6,6 +6,8 @@ from typing import List
 import numpy as np
 import pytorch_lightning as pl
 import torch
+torch.cuda.empty_cache()
+    
 from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
 
@@ -15,7 +17,7 @@ from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
@@ -27,13 +29,13 @@ if __name__ == "__main__":
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
     wandb_project_name = 'StudEmo_xlmr_SingleExp_EarlyStopping'
-
+   
     max_length = 256
-    lr_rate = 1e-5
+    lr_rate = 1e-4
     epochs = 10
-    batch_size = 32
-    weight_decay = 0.1
-    warmup_proportion = 0.06
+    batch_size = 8
+    weight_decay = 0.01
+    warmup_proportion = 0.1
 
     use_cuda = True
     custom_callbacks: List[pl.Callback] = [
