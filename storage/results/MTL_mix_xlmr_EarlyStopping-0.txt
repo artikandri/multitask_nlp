@@ -1,0 +1,9 @@
+MTL_mix_xlmr_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/beaming-dog-7
+model size: 1061.1295471191406
+number of params: 278166688
+number of trainable params: 278166688
+average inference time: 0.01729382260782378
+nr of epochs: 10
+nr of rep: 0
+datetime: 29/03/2023 01:26:47

@@ -1,0 +1,9 @@
+MTL_en_xlmr_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/bright-peony-2/epoch=0-step=58.ckpt
+model size: 1060.9858055114746
+number of params: 278129007
+number of trainable params: 278129007
+average inference time: 0.017347383249018886
+nr of epochs: 10
+nr of rep: 0
+datetime: 29/03/2023 01:27:47

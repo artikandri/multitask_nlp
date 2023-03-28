@@ -1,0 +1,9 @@
+IndonesianEmotion_xlmr_singleExp_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/apricot-oath-8
+model size: 1060.6953887939453
+number of params: 278052876
+number of trainable params: 278052876
+average inference time: 0.03264318604754587
+nr of epochs: 10
+nr of rep: 0
+datetime: 29/03/2023 01:19:59

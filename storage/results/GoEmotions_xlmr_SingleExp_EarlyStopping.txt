@@ -1,0 +1,8 @@
+GoEmotions_xlmr_SingleExp_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/floating-fish-2
+model size: 1060.824462890625
+number of params: 278086712
+number of trainable params: 278086712
+average inference time: 0.0174935822045966
+nr of epochs: 10
+datetime: 29/03/2023 01:26:37

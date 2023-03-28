@@ -1,0 +1,9 @@
+MTL_mix2_xlmr_emocls_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/dulcet-pine-5
+model size: 1061.0386085510254
+number of params: 278142849
+number of trainable params: 278142849
+average inference time: 0.011112698594729109
+nr of epochs: 10
+nr of rep: 0
+datetime: 29/03/2023 01:28:48

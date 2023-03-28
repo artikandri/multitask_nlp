@@ -1,0 +1,8 @@
+Conll2003_xlmr_SingleExp_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/sweet-wave-2
+model size: 1060.6865882873535
+number of params: 278050569
+number of trainable params: 278050569
+average inference time: 0.03008331116608211
+nr of epochs: 10
+datetime: 29/03/2023 01:23:58

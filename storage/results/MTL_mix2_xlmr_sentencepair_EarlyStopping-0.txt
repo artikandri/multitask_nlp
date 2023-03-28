@@ -1,0 +1,9 @@
+MTL_mix2_xlmr_sentencepair_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/charmed-dust-5
+model size: 1060.6748542785645
+number of params: 278047493
+number of trainable params: 278047493
+average inference time: 0.024625929172341902
+nr of epochs: 10
+nr of rep: 0
+datetime: 29/03/2023 01:30:21
