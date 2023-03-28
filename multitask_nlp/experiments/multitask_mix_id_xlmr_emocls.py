@@ -36,7 +36,7 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 
 os.environ["WANDB_START_METHOD"] = "thread"
 
-use_cuda = False
+use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
@@ -237,9 +237,7 @@ def run_experiments():
                             ckpt_files = os.listdir(ckpt_path)
                             if ckpt_files:
                                 ckpt_file = ckpt_files[0]
-                                device = torch.device("cuda")
                                 model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
-                                model2.to(device)
                                 size = get_size(model2)
                                 total_params, trainable_params = get_params(model2)
                                 exp_custom_callbacks = copy(custom_callbacks)
@@ -264,7 +262,9 @@ def run_experiments():
                                         f"number of trainable params: {trainable_params}" ,
                                         f"average inference time: {avg_time}",
                                         f"nr of epochs: {epochs}",
-                                        f"nr of rep: {i}"]
+                                        f"nr of rep: {i}",
+                                        f"predictions: {predictions}", 
+                                        f"inference time: {[pred['inference_time'] for pred in predictions]}" ]
                                         
                                 write_as_txt_file(results, f"{wandb_project_name}-{i}")  
                         else:
