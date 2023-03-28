@@ -1,0 +1,8 @@
+StudEmo_xlmr_SingleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/celestial-darkness-12
+model size: 1060.7863273620605
+number of params: 278076715
+number of trainable params: 278076715
+average inference time: 0.12710694404270342
+nr of epochs: 10
+datetime: 29/03/2023 00:50:49
