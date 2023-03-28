@@ -97,7 +97,6 @@ class MultitaskTransformer(nn.Module):
         self.task_heads = task_heads
 
     def forward(self, features: MODEL_INPUT_TYPE) -> MODEL_OUTPUT_TYPE:
-        # features['task_type'] = features['task_type'] if 'task_type' in features else 'classification'
         if features['task_type'] == 'sequence labeling':
             return self._process_for_sequence_labeling(features)
         else:

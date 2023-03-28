@@ -13,7 +13,8 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
-from multitask_nlp.learning.train_test import train_test
+from multitask_nlp.learning.train_test import train_test, load_model
+from multitask_nlp.utils.analyze_models import get_size, get_params
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
@@ -21,6 +22,8 @@ from multitask_nlp.utils import seed_everything
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "lemon-bush-17"
 
 if __name__ == "__main__":
     datamodule_cls = SmsaDocSentimentProsaDataModule
@@ -85,39 +88,50 @@ if __name__ == "__main__":
                 max_length=max_length
             )
 
-            logger = pl_loggers.WandbLogger(
-                save_dir=str(LOGS_DIR),
-                config=hparams,
-                project=wandb_project_name,
-                log_model=False,
-            )
+            if analyze_latest_model:
+                if  os.path.exists(ckpt_path):
+                    ckpt_files = os.listdir(ckpt_path)
+                    if ckpt_files:
+                        ckpt_file = ckpt_files[0]
+                        model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                        size = get_size(model)
+                        total_params, trainable_params = get_params(model)
+                else:
+                    print("checkpoint path doesnt exist")
+            else:
+                logger = pl_loggers.WandbLogger(
+                    save_dir=str(LOGS_DIR),
+                    config=hparams,
+                    project=wandb_project_name,
+                    log_model=False,
+                )
 
-            exp_custom_callbacks = copy(custom_callbacks)
-            exp_custom_callbacks.extend(
-                [
-                    ModelCheckpoint(
-                        dirpath=CHECKPOINTS_DIR / logger.experiment.name,
-                        save_top_k=1,
-                        monitor='valid_overall_score',
-                        mode='max',
-                    ),
-                    EarlyStopping(
-                        monitor='valid_overall_score',
-                        patience=5,
-                        mode='max'
-                    )
-                ]
-            )
+                exp_custom_callbacks = copy(custom_callbacks)
+                exp_custom_callbacks.extend(
+                    [
+                        ModelCheckpoint(
+                            dirpath=CHECKPOINTS_DIR / logger.experiment.name,
+                            save_top_k=1,
+                            monitor='valid_overall_score',
+                            mode='max',
+                        ),
+                        EarlyStopping(
+                            monitor='valid_overall_score',
+                            patience=5,
+                            mode='max'
+                        )
+                    ]
+                )
 
-            train_test(
-                datamodule=data_module,
-                model=model,
-                epochs=epochs,
-                lr=lr_rate,
-                weight_decay=weight_decay,
-                use_cuda=use_cuda,
-                logger=logger,
-                custom_callbacks=exp_custom_callbacks,
-                lightning_model_kwargs=lightning_model_kwargs,
-            )
-            logger.experiment.finish()
+                train_test(
+                    datamodule=data_module,
+                    model=model,
+                    epochs=epochs,
+                    lr=lr_rate,
+                    weight_decay=weight_decay,
+                    use_cuda=use_cuda,
+                    logger=logger,
+                    custom_callbacks=exp_custom_callbacks,
+                    lightning_model_kwargs=lightning_model_kwargs,
+                )
+                logger.experiment.finish()

@@ -23,7 +23,8 @@ from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
 from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
 from multitask_nlp.datasets.conll2003.conll2003 import Conll2003DataModule
 
-from multitask_nlp.learning.train_test import train_test
+from multitask_nlp.learning.train_test import train_test, load_model
+from multitask_nlp.utils.analyze_models import get_params, get_size
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
@@ -34,16 +35,16 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_mix_indo-roberta_EarlyStopping'
 
 RANDOM_SEED = 2023
 
 stl_experiments = False
+analyze_latest_model = True
 
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['indo-roberta']
+    model_names = ['xlmr', 'indo-roberta']
     rep_num = 5
 
     loss_args_list = [(False, None)]
@@ -223,17 +224,36 @@ def run_experiments():
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
 
-                    run_training(
-                        model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
-                        custom_callbacks=mtl_custom_callbacks,
-                        lightning_model_kwargs=used_lightning_model_kwargs,
-                        trainer_kwargs=trainer_kwargs
-                    )
+                    wandb_project_name = f'MTL_mix_{model_name}_EarlyStopping'
+
+
+                    if analyze_latest_model:
+                        ckpt_paths = {
+                            "xlmr": "beaming-dog-7",
+                            "indo-roberta": "comic-river-7"
+                        }
+                        ckpt_path = CHECKPOINTS_DIR / ckpt_paths[model_name]
+                        if  os.path.exists(ckpt_path):
+                            ckpt_files = os.listdir(ckpt_path)
+                            if ckpt_files:
+                                ckpt_file = ckpt_files[0]
+                                model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                                size = get_size(model)
+                                total_params, trainable_params = get_params(model)
+                        else:
+                            print("checkpoint path doesnt exist")
+                    else:
+                        run_training(
+                            model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
+                            custom_callbacks=mtl_custom_callbacks,
+                            lightning_model_kwargs=used_lightning_model_kwargs,
+                            trainer_kwargs=trainer_kwargs, wandb_project_name=wandb_project_name
+                        )
 
 
 
 def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, custom_callbacks,
-                 lightning_model_kwargs=None, trainer_kwargs=None):
+                 lightning_model_kwargs=None, trainer_kwargs=None, wandb_project_name=""):
     logger = pl_loggers.WandbLogger(
         save_dir=str(LOGS_DIR),
         config=hparams,

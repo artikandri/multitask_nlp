@@ -2,7 +2,6 @@ import os
 from copy import copy, deepcopy
 from itertools import product
 from typing import List
-import gc 
 
 import torch
 import pytorch_lightning as pl
@@ -24,6 +23,7 @@ from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import Indones
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 
 from multitask_nlp.learning.train_test import train_test, load_model
+from multitask_nlp.utils.analyze_models import get_params, get_size
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
@@ -31,25 +31,21 @@ from multitask_nlp.utils.callbacks.dynamic_proportion_sampling import AnnealingS
     DynamicTemperatureSampling
 from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetResetter
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
-use_cuda = True
-wandb_project_name = 'MTL_Indo_indo-roberta_EarlyStopping'
+use_cuda = False
+wandb_project_name = 'MTL_Indo_xlmr_EarlyStopping'
 
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = False
-
-if use_cuda:
-    torch.cuda.empty_cache()
-    gc.collect()
-
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "vermilion-mandu-36"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['indo-roberta']
+    model_names = ['xlmr']
     rep_num = 5
 
     loss_args_list = [(False, None)]
@@ -83,7 +79,7 @@ def run_experiments():
 
     task_datamodules_setup = {
         CasaAbsaProsaDataModule: {"batch_size": batch_size},
-       # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
         # HoasaAbsaAiryDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
         FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
@@ -227,12 +223,23 @@ def run_experiments():
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
 
-                    run_training(
-                        model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
-                        custom_callbacks=mtl_custom_callbacks,
-                        lightning_model_kwargs=used_lightning_model_kwargs,
-                        trainer_kwargs=trainer_kwargs
-                    )
+                    if analyze_latest_model:
+                        if  os.path.exists(ckpt_path):
+                            ckpt_files = os.listdir(ckpt_path)
+                            if ckpt_files:
+                                ckpt_file = ckpt_files[0]
+                                model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                                size = get_size(model)
+                                total_params, trainable_params = get_params(model)
+                        else:
+                            print("checkpoint path doesnt exist")
+                    else:
+                        run_training(
+                            model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
+                            custom_callbacks=mtl_custom_callbacks,
+                            lightning_model_kwargs=used_lightning_model_kwargs,
+                            trainer_kwargs=trainer_kwargs
+                        )
 
                     # Fine-tuning of MTL model for a single task
                     for data_module in tasks_datamodules:
@@ -244,10 +251,17 @@ def run_experiments():
                         hparams_copy["mt_dataset_type"] = multitask_dataset_type
                         hparams_copy.update(multitask_dataset_args)
 
+
                         if analyze_latest_model:
-                            ckpt_path = CHECKPOINTS_DIR / "upbeat-spaceship-21"
-                            if os.path.exists(ckpt_path):
-                                model = load_model(model, ckpt_path=ckpt_path)
+                            if  os.path.exists(ckpt_path):
+                                ckpt_files = os.listdir(ckpt_path)
+                                if ckpt_files:
+                                    ckpt_file = ckpt_files[0]
+                                    model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                                    size = get_size(model)
+                                    total_params, trainable_params = get_params(model)
+                            else:
+                                print("checkpoint path doesnt exist")
                         else:
                             run_training(
                                 model_to_finetune, data_module, hparams_copy,
