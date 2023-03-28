@@ -109,7 +109,6 @@ def load_and_predict(
     trainer_kwargs = trainer_kwargs or {}
     trainer = pl.Trainer(
         gpus=1 if _use_cuda else 0,
-        accelerator="gpu",
         max_epochs=epochs,
         progress_bar_refresh_rate=20,
         log_every_n_steps=10,
