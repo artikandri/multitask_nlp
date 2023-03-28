@@ -257,10 +257,12 @@ class Model(pl.LightningModule):
         self._log_losses_per_tasks(task_name, loss, 'predict')
         torch.cuda.empty_cache()
         minibatch_model_in, _ = batch
+
         self.starter.record()
         _ = self(minibatch_model_in)
         self.ender.record()
         torch.cuda.synchronize()
+        
         inference_time = self.starter.elapsed_time(self.ender)
         print("time", inference_time*1e-3)
                 
