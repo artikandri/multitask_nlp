@@ -1,0 +1,9 @@
+MTL_mix2_xlmr_seqlab_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/zesty-planet-5
+model size: 1060.7188568115234
+number of params: 278059028
+number of trainable params: 278059028
+average inference time: 0.042052896848746676
+nr of epochs: 10
+nr of rep: 3
+datetime: 28/03/2023 23:19:24
