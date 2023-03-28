@@ -24,7 +24,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
 analyze_latest_model = True
-ckpt_path = CHECKPOINTS_DIR / "decent-wood-12"
+ckpt_path = CHECKPOINTS_DIR / "still-water-1"
 
 
 if __name__ == "__main__":
@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     rep_num = 1
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['indo-bert']
 
     max_length = 256
     lr_rate = 1e-4
@@ -94,12 +94,14 @@ if __name__ == "__main__":
                     ckpt_files = os.listdir(ckpt_path)
                     if ckpt_files:
                         ckpt_file = ckpt_files[0]
-                        # device = torch.device("cuda")
+                        device = torch.device("cuda")
+                        trainer = Trainer()
                         model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
-                        # model2.to(device)
+                        model2.to(device)
                         size = get_size(model2)
                         total_params, trainable_params = get_params(model2)
                         exp_custom_callbacks = copy(custom_callbacks)
+                    
                         
                         load_and_predict(
                             datamodule=data_module,
@@ -107,6 +109,7 @@ if __name__ == "__main__":
                             epochs=epochs,
                             lr=lr_rate,
                             logger=None,
+                            exp_name=wandb_project_name,
                             weight_decay=weight_decay,
                             use_cuda=use_cuda,
                             custom_callbacks=exp_custom_callbacks,

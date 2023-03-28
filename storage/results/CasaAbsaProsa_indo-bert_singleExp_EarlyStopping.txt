@@ -1,0 +1,1 @@
+average inference time for 6 predictions (10 epochs): 0.055972522417704264

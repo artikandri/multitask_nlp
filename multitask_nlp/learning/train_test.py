@@ -1,5 +1,6 @@
 from copy import copy
 from typing import List, Optional, Union
+from datetime import date
 
 import pytorch_lightning as pl
 import torch
@@ -7,6 +8,7 @@ from pytorch_lightning import Callback, loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch import nn
 
+from multitask_nlp.utils.file_loading import write_txt_file
 from multitask_nlp.datasets.base_datamodule import BaseDataModule
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 from multitask_nlp.learning.lightning_model import Model
@@ -33,6 +35,7 @@ def load_and_predict(
     lr: float = 1e-2,
     weight_decay: float = 0.0,
     use_cuda: bool = False,
+    exp_name=None,
     log_model: Union[str, bool] = False,
     custom_callbacks: Optional[List[Callback]] = None,
     lightning_model_kwargs=None,
@@ -123,9 +126,13 @@ def load_and_predict(
     predictions = trainer.predict(ckpt_path=ckpt_path, model=lightning_model, dataloaders=test_dataloaders)
     
     inference_time = [pred['inference_time'] for pred in predictions]
-    print(inference_time)
     avg = sum(inference_time) / len (inference_time)
-    print(f"average inference time for {len(predictions)} predictions ({epochs} epochs): {avg}")
+    
+    text = f"average inference time for {len(predictions)} predictions ({epochs} epochs): {avg}"
+    if exp_name is None:
+        exp_name = f"experiment-{date.today()}"
+    write_txt_file(text, exp_name)
+    print(text)
     
     return predictions
 
