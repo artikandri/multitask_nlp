@@ -25,7 +25,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
 analyze_latest_model = True
-ckpt_path = CHECKPOINTS_DIR / "still-water-1"
+ckpt_path = CHECKPOINTS_DIR / "decent-wood-12"
 
 
 if __name__ == "__main__":
@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
     rep_num = 1
     model_types = ['multitask_transformer']
-    model_names = ['indo-bert']
+    model_names = ['xlmr']
 
     max_length = 256
     lr_rate = 1e-4
