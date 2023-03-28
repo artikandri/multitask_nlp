@@ -237,9 +237,9 @@ def run_experiments():
                             ckpt_files = os.listdir(ckpt_path)
                             if ckpt_files:
                                 ckpt_file = ckpt_files[0]
-                                # device = torch.device("cuda")
+                                device = torch.device("cuda")
                                 model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
-                                # model2.to(device)
+                                model2.to(device)
                                 size = get_size(model2)
                                 total_params, trainable_params = get_params(model2)
                                 exp_custom_callbacks = copy(custom_callbacks)
