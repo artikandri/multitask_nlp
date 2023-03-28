@@ -1,0 +1,9 @@
+MTL_mix2_en_xlmr_emocls_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/stoic-puddle-6
+model size: 1060.9506034851074
+number of params: 278119779
+number of trainable params: 278119779
+average inference time: 0.18893676235364829
+nr of epochs: 10
+nr of rep: 0
+datetime: 29/03/2023 01:32:43
