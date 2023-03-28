@@ -133,7 +133,7 @@ def load_and_predict(
 
     test_dataloaders = [test_loader] + [extra_test_data_module.whole_dataset_dataloader() for
                                         extra_test_data_module in extra_test_datamodules]
-    trainer.predict(dataloaders=test_dataloaders)
+    trainer.predict(ckpt_path=ckpt_path, dataloaders=test_dataloaders)
 
 
 def train_test(
