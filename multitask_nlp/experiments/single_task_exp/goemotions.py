@@ -10,7 +10,7 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
 
 from multitask_nlp.datasets.goemotions.goemotions import GoEmotionsDataModule
-from multitask_nlp.learning.train_test import train_test, load_model
+from multitask_nlp.learning.train_test import train_test, load_model, load_and_predict
 from multitask_nlp.utils.analyze_models import get_params, get_size
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
@@ -81,9 +81,24 @@ if __name__ == "__main__":
                 ckpt_files = os.listdir(ckpt_path)
                 if ckpt_files:
                     ckpt_file = ckpt_files[0]
-                    model = load_model(model, ckpt_path=ckpt_path/ckpt_file)
-                    size = get_size(model)
-                    total_params, trainable_params = get_params(model)
+                    device = torch.device("cuda")
+                    model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                    model2.to(device)
+                    size = get_size(model2)
+                    total_params, trainable_params = get_params(model2)
+                    exp_custom_callbacks = copy(custom_callbacks)
+                    
+                    load_and_predict(
+                        datamodule=data_module,
+                        model=model2,
+                        epochs=epochs,
+                        lr=lr_rate,
+                        logger=None,
+                        weight_decay=weight_decay,
+                        use_cuda=use_cuda,
+                        custom_callbacks=exp_custom_callbacks,
+                        lightning_model_kwargs=lightning_model_kwargs
+                    )
             else:
                 logger = pl_loggers.WandbLogger(
                     save_dir=str(LOGS_DIR),
