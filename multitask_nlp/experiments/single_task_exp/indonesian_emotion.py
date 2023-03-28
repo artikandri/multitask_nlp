@@ -122,7 +122,7 @@ if __name__ == "__main__":
                                         f"nr of epochs: {epochs}",
                                         f"nr of rep: {i}"]
                                         
-                                write_as_txt_file(results, f"{wandb_project_name}-{i}")  
+                        write_as_txt_file(results, f"{wandb_project_name}-{i}")  
                 else:
                     print("checkpoint path doesnt exist")
             else:
