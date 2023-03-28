@@ -23,6 +23,8 @@ from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import Indones
 from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 
 from multitask_nlp.learning.train_test import train_test, load_model, load_and_predict
+from multitask_nlp.utils.file_loading import write_as_txt_file
+
 from multitask_nlp.utils.analyze_models import get_params, get_size
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
@@ -235,17 +237,29 @@ def run_experiments():
                                 total_params, trainable_params = get_params(model2)
                                 exp_custom_callbacks = copy(custom_callbacks)
                                 
-                                load_and_predict(
+                                
+                                predictions, avg_time = load_and_predict(
                                     datamodule=data_module,
                                     model=model2,
                                     epochs=epochs,
                                     lr=lr_rate,
                                     logger=None,
+                                    exp_name=wandb_project_name,
                                     weight_decay=weight_decay,
                                     use_cuda=use_cuda,
                                     custom_callbacks=exp_custom_callbacks,
                                     lightning_model_kwargs=lightning_model_kwargs
                                 )
+                                
+                                results = [wandb_project_name,
+                                        f"ckpt_path: {ckpt_path}" ,
+                                        f"model size: {size}" ,
+                                        f"number of params: {total_params}",
+                                        f"number of trainable params: {trainable_params}" ,
+                                        f"average inference time: {avg_time}",
+                                        f"nr of epochs: {epochs}"]
+                                        
+                                write_as_txt_file(results, wandb_project_name) 
                         else:
                             print("checkpoint path doesnt exist")
                     else:
@@ -279,17 +293,29 @@ def run_experiments():
                                     total_params, trainable_params = get_params(model2)
                                     exp_custom_callbacks = copy(custom_callbacks)
                                     
-                                    load_and_predict(
+                                    
+                                    predictions, avg_time = load_and_predict(
                                         datamodule=data_module,
                                         model=model2,
                                         epochs=epochs,
                                         lr=lr_rate,
                                         logger=None,
+                                        exp_name=wandb_project_name,
                                         weight_decay=weight_decay,
                                         use_cuda=use_cuda,
                                         custom_callbacks=exp_custom_callbacks,
                                         lightning_model_kwargs=lightning_model_kwargs
                                     )
+                                    
+                                    results = [wandb_project_name,
+                                            f"ckpt_path: {ckpt_path}" ,
+                                            f"model size: {size}" ,
+                                            f"number of params: {total_params}",
+                                            f"number of trainable params: {trainable_params}" ,
+                                            f"average inference time: {avg_time}",
+                                            f"nr of epochs: {epochs}"]
+                                            
+                                    write_as_txt_file(results, wandb_project_name) 
                             else:
                                 print("checkpoint path doesnt exist")
                         else:
