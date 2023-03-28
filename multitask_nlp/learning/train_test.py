@@ -130,7 +130,6 @@ def load_and_predict(
         num_sanity_val_steps=2,
         **trainer_kwargs
     )
-    trainer.fit(lightning_model, train_loader, val_loader)
 
     test_dataloaders = [test_loader] + [extra_test_data_module.whole_dataset_dataloader() for
                                         extra_test_data_module in extra_test_datamodules]
