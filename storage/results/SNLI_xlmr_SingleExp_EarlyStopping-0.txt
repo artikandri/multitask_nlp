@@ -1,0 +1,9 @@
+SNLI_xlmr_SingleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/dancing-tiger-1
+model size: 1060.66898727417
+number of params: 278045955
+number of trainable params: 278045955
+average inference time: 0.0535319234245375
+nr of epochs: 10
+nr of rep: 0
+datetime: 28/03/2023 23:51:05

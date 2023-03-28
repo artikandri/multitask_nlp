@@ -1,0 +1,9 @@
+NerpNerProsa_xlmr_singleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/floral-cosmos-11
+model size: 1060.692455291748
+number of params: 278052107
+number of trainable params: 278052107
+average inference time: 0.11623648636429397
+nr of epochs: 10
+nr of rep: 0
+datetime: 28/03/2023 23:52:14

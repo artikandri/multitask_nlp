@@ -1,0 +1,9 @@
+SmsaDocSentimentProsa_indo-roberta_singleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/lemon-bush-17
+model size: 475.5019950866699
+number of params: 124647939
+number of trainable params: 124647939
+average inference time: 0.055977693915367124
+nr of epochs: 10
+nr of rep: 0
+datetime: 28/03/2023 23:52:46

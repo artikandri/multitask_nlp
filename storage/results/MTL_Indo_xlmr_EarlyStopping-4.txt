@@ -3,6 +3,7 @@ ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/vermilion-mand
 model size: 1060.8039283752441
 number of params: 278081329
 number of trainable params: 278081329
-average inference time: 0.04146718000452571
+average inference time: 0.04111881856715424
 nr of epochs: 10
-datetime: 28/03/2023 23:38:35
+nr of rep: 4
+datetime: 28/03/2023 23:37:11

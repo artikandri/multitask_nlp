@@ -1,0 +1,9 @@
+WreteEntailmentUI_xlmr_singleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/smooth-serenity-10
+model size: 1060.6660537719727
+number of params: 278045186
+number of trainable params: 278045186
+average inference time: 0.09510092449188232
+nr of epochs: 10
+nr of rep: 0
+datetime: 28/03/2023 23:51:10
