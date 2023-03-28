@@ -12,7 +12,6 @@ from pytorch_lightning.callbacks import EarlyStopping, LearningRateMonitor, Mode
 from multitask_nlp.datasets.conll2003.conll2003 import Conll2003DataModule
 from multitask_nlp.learning.train_test import train_test, load_model, load_and_predict
 from multitask_nlp.utils.file_loading import write_as_txt_file
-, load_and_predict
 from multitask_nlp.utils.analyze_models import get_params, get_size
 from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
