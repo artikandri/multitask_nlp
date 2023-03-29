@@ -1,0 +1,9 @@
+CasaAbsaProsa_xlmr_singleExp_EarlyStopping
+ckpt_path: /mnt/data/acandri/multitask_nlp/storage/checkpoints/decent-wood-12
+model size: 1060.712989807129
+number of params: 278057490
+number of trainable params: 278057490
+average inference time: 0.020381375630696617
+nr of epochs: 10
+nr of rep: 0
+datetime: 29/03/2023 02:36:23
