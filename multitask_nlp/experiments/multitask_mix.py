@@ -266,7 +266,9 @@ def run_experiments():
                                         f"number of trainable params: {trainable_params}" ,
                                         f"average inference time: {avg_time}",
                                         f"nr of epochs: {epochs}",
-                                        f"nr of rep: {i}"]
+                                        f"nr of rep: {i}"
+                                        f"predictions: {predictions}", 
+                                        ]
                                         
                                 write_as_txt_file(results, f"{wandb_project_name}-{i}")  
                         else:
