@@ -83,7 +83,7 @@ def run_experiments():
         StudEmoDataModule: {"batch_size": batch_size}, #emotions
         IndonesianEmotionDataModule: {"batch_size": batch_size}, #emotions
         CasaAbsaProsaDataModule: {"batch_size": batch_size}, #sentiment
-        # SmsaDocSentimentProsaDataModule: {"batch_size": batch_size}, #sentiment analysis
+        SmsaDocSentimentProsaDataModule: {"batch_size": batch_size}, #sentiment analysis
         # WreteEntailmentUiDataModule: {"batch_size": batch_size}, #entailment
         # SNLI_DataModule:  {"batch_size": batch_size}, #entailment
         # FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner

@@ -40,13 +40,13 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "zesty-planet-5"
 
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr','indo-roberta']
+    model_names = ['xlmr']
     rep_num = 1
 
     loss_args_list = [(False, None)]
@@ -82,13 +82,13 @@ def run_experiments():
         # GoEmotionsDataModule: {"batch_size": batch_size}, #emotions
         # StudEmoDataModule: {"batch_size": batch_size}, #emotions
         # IndonesianEmotionDataModule: {"batch_size": batch_size}, #emotions
-        # CasaAbsaProsaDataModule: {"batch_size": batch_size}, #sentiment
+        CasaAbsaProsaDataModule: {"batch_size": batch_size}, #sentiment
         # SmsaDocSentimentProsaDataModule: {"batch_size": batch_size}, #sentiment analysis
         # WreteEntailmentUiDataModule: {"batch_size": batch_size}, #sentence-pair
         # SNLI_DataModule:  {"batch_size": batch_size}, #sentence-pair
         # FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner
         NerpNerProsaDataModule: {"batch_size": batch_size}, #ner 
-        Conll2003DataModule: {"batch_size": batch_size}, #ner
+        # Conll2003DataModule: {"batch_size": batch_size}, #ner
     }
     task_to_not_log_detailed = ['GoEmotions']
 
@@ -120,7 +120,7 @@ def run_experiments():
         product(model_types, model_names, loss_args_list):
         model_cls = models_dict[model_type]
 
-        wandb_project_name = f'MTL_mix2_{model_name}_seqlab_EarlyStopping'
+        wandb_project_name = f'MTL_mix2_{model_name}_1seqlab_1cls_EarlyStopping'
 
         uncertainty_loss, scaling_type = loss_args
         hparams = {

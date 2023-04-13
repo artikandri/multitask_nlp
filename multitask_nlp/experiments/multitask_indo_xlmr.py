@@ -42,7 +42,7 @@ wandb_project_name = 'MTL_Indo_xlmr_EarlyStopping'
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "vermilion-mandu-36"
 
 def run_experiments():
@@ -84,11 +84,11 @@ def run_experiments():
         # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
         # HoasaAbsaAiryDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
-        FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
+        # FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
         # NerGritDataModule: {"batch_size": batch_size},
         # KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
         NerpNerProsaDataModule: {"batch_size": batch_size},
-        SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
+        # SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
         IndonesianEmotionDataModule: {"batch_size": batch_size},
     }
 

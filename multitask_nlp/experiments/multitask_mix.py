@@ -86,7 +86,7 @@ def run_experiments():
         SmsaDocSentimentProsaDataModule: {"batch_size": batch_size}, #sentiment analysis
         WreteEntailmentUiDataModule: {"batch_size": batch_size}, #entailment
         SNLI_DataModule:  {"batch_size": batch_size}, #entailment
-        FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner
+        # FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner
         NerpNerProsaDataModule: {"batch_size": batch_size}, #ner 
         Conll2003DataModule: {"batch_size": batch_size}, #ner
     }
