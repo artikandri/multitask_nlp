@@ -7,8 +7,7 @@ from sklearn.model_selection import train_test_split
 from multitask_nlp.datasets.base_datamodule import BaseDataModule
 from multitask_nlp.settings import INDONESIAN_EMOTION_DATASET_DIR
 
-DEFAULT_RANDOM = 42
-DEFAULT_SPLITS = [0.7, 0.15, 0.15]
+DEFAULT_SPLITS = [0.6, 0.2, 0.2]
 ANNOTATION_COLUMNS = ['Love', 'Fear', 'Anger', 'Sad', 'Joy', 'Neutral']
 
 class IndonesianEmotionDataModule(BaseDataModule):

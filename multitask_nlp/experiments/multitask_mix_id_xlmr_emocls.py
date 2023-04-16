@@ -41,7 +41,7 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR 
 
 def run_experiments():
@@ -79,18 +79,10 @@ def run_experiments():
     T_max_list = [5]
 
     task_datamodules_setup = {
-        #GoEmotionsDataModule: {"batch_size": batch_size}, #emotions
-        # StudEmoDataModule: {"batch_size": batch_size}, #emotions
         IndonesianEmotionDataModule: {"batch_size": batch_size}, #emotions
         CasaAbsaProsaDataModule: {"batch_size": batch_size}, #sentiment
-        SmsaDocSentimentProsaDataModule: {"batch_size": batch_size}, #sentiment analysis
-        # WreteEntailmentUiDataModule: {"batch_size": batch_size}, #entailment
-        # SNLI_DataModule:  {"batch_size": batch_size}, #entailment
-        # FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner
-        # NerpNerProsaDataModule: {"batch_size": batch_size}, #ner 
-        # Conll2003DataModule: {"batch_size": batch_size}, #ner
     }
-    task_to_not_log_detailed = ['GoEmotions']
+    task_to_not_log_detailed = []
 
     lightning_model_kwargs = {
         'lr_scheduling': lr_scheduling,

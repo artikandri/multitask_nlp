@@ -40,7 +40,7 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "dulcet-pine-5"
 
 
@@ -83,12 +83,6 @@ def run_experiments():
         StudEmoDataModule: {"batch_size": batch_size}, #emotions
         IndonesianEmotionDataModule: {"batch_size": batch_size}, #emotions
         CasaAbsaProsaDataModule: {"batch_size": batch_size}, #sentiment
-        SmsaDocSentimentProsaDataModule: {"batch_size": batch_size}, #sentiment analysis
-        # WreteEntailmentUiDataModule: {"batch_size": batch_size}, #entailment
-        # SNLI_DataModule:  {"batch_size": batch_size}, #entailment
-        # FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner
-        # NerpNerProsaDataModule: {"batch_size": batch_size}, #ner 
-        # Conll2003DataModule: {"batch_size": batch_size}, #ner
     }
     task_to_not_log_detailed = ['GoEmotions']
 

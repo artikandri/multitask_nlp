@@ -81,14 +81,8 @@ def run_experiments():
 
     task_datamodules_setup = {
         CasaAbsaProsaDataModule: {"batch_size": batch_size},
-        # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
-        # HoasaAbsaAiryDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
-        # FacqaQaFactoidItbDataModule: {"batch_size": batch_size},
-        # NerGritDataModule: {"batch_size": batch_size},
-        # KepsKeywordExtractionProsaDataModule: {"batch_size": batch_size},
         NerpNerProsaDataModule: {"batch_size": batch_size},
-        # SmsaDocSentimentProsaDataModule: {"batch_size": batch_size},
         IndonesianEmotionDataModule: {"batch_size": batch_size},
     }
 

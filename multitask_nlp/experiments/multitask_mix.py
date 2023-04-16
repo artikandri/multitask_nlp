@@ -41,12 +41,11 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
-
+analyze_latest_model = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr', 'indo-roberta']
+    model_names = ['xlmr']
     rep_num = 1
 
     loss_args_list = [(False, None)]
@@ -83,10 +82,8 @@ def run_experiments():
         StudEmoDataModule: {"batch_size": batch_size}, #emotions
         IndonesianEmotionDataModule: {"batch_size": batch_size}, #emotions
         CasaAbsaProsaDataModule: {"batch_size": batch_size}, #sentiment
-        SmsaDocSentimentProsaDataModule: {"batch_size": batch_size}, #sentiment analysis
         WreteEntailmentUiDataModule: {"batch_size": batch_size}, #entailment
         SNLI_DataModule:  {"batch_size": batch_size}, #entailment
-        # FacqaQaFactoidItbDataModule: {"batch_size": batch_size}, #ner
         NerpNerProsaDataModule: {"batch_size": batch_size}, #ner 
         Conll2003DataModule: {"batch_size": batch_size}, #ner
     }
