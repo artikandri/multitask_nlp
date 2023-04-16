@@ -37,7 +37,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_Indo_xlmr_EarlyStopping'
+wandb_project_name = 'MTL_rev_Indo_xlmr_EarlyStopping'
 
 RANDOM_SEED = 2023
 

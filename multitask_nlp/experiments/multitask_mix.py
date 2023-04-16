@@ -223,7 +223,7 @@ def run_experiments():
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
 
-                    wandb_project_name = f'MTL_mix_{model_name}_EarlyStopping'
+                    wandb_project_name = f'MTL_rev_mix_{model_name}_EarlyStopping'
 
 
                     if analyze_latest_model:

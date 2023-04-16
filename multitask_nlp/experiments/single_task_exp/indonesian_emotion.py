@@ -21,7 +21,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "apricot-oath-8"
 
 
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
 
-    wandb_project_name = 'IndonesianEmotion_xlmr_singleExp_EarlyStopping'
+    wandb_project_name = 'IndonesianEmotion_rev_xlmr_singleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-4
