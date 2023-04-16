@@ -33,7 +33,7 @@ from multitask_nlp.utils.callbacks.dynamic_proportion_sampling import AnnealingS
     DynamicTemperatureSampling
 from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetResetter
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
@@ -53,7 +53,7 @@ def run_experiments():
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']
 
-    max_length = 512
+    max_length = 256
     batch_size = 16
     epochs = 10
     lr_rate = 1e-5

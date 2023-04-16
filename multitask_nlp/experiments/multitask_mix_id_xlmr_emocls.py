@@ -3,7 +3,7 @@ from copy import copy
 from itertools import product
 from typing import List
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import torch
 import pytorch_lightning as pl
@@ -52,7 +52,7 @@ def run_experiments():
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']
 
-    max_length = 512
+    max_length = 256
     batch_size = 16
     epochs = 10
     lr_rate = 1e-5
