@@ -46,8 +46,8 @@ ckpt_path = CHECKPOINTS_DIR / "dulcet-pine-5"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr','indo-roberta']
-    rep_num = 1
+    model_names = ['xlmr']
+    rep_num = 5
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']

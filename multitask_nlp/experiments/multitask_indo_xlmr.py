@@ -33,7 +33,7 @@ from multitask_nlp.utils.callbacks.dynamic_proportion_sampling import AnnealingS
     DynamicTemperatureSampling
 from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetResetter
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
@@ -48,7 +48,7 @@ ckpt_path = CHECKPOINTS_DIR / "vermilion-mandu-36"
 def run_experiments():
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
-    rep_num = 1
+    rep_num = 5
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']

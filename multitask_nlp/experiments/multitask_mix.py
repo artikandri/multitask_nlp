@@ -51,7 +51,7 @@ analyze_latest_model = False
 def run_experiments():
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
-    rep_num = 1
+    rep_num = 5
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']
