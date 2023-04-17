@@ -46,7 +46,7 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
+analyze_latest_model = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
