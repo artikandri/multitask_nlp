@@ -7,19 +7,22 @@ import pandas as pd
 
 project_root = RESULTS_DIR
 
-def zip_file(paths, file_name):
+def zip_file(paths=[], file_name=None):
     if file_name is None:
         file_name = f"Zip-{date.today()}"
-    zip_path = RESULTS_DIR / f"{file_name}.zip"
-    with ZipFile(zip_path, 'w') as zipObj:
-        for path in paths:
-            if  os.path.exists(path):
-                for folderName, subfolders, filenames in os.walk(path):
-                    for filename in filenames:
-                        filePath = os.path.join(folderName, filename)
-                        zipObj.write(filePath, basename(filePath))
+    if paths:
+        zip_path = RESULTS_DIR / f"{file_name}.zip"
+        with ZipFile(zip_path, 'w') as zipObj:
+            for path in paths:
+                if  os.path.exists(path):
+                    for folderName, subfolders, filenames in os.walk(path):
+                        for filename in filenames:
+                            filePath = os.path.join(folderName, filename)
+                            zipObj.write(filePath, basename(filePath))
 
-    print(f"{file_name}.zip has been created. Check at {RESULTS_DIR}")
+        print(f"{file_name}.zip has been created. Check at {RESULTS_DIR}")
+    else:
+        print("No paths provided")
 
 def get_df():
     path = RESULTS_DIR
