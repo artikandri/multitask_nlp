@@ -53,6 +53,6 @@ if __name__ == "__main__":
     
     print(checkpoint_names)
         
-    # delete_unrelated_folders(checkpoint_names)
-    # zip_file(paths)
+    delete_unrelated_folders(checkpoint_names)
+    zip_file(paths)
     
