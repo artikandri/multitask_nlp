@@ -1,0 +1,9 @@
+IndonesianEmotion_rev_xlmr_singleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/wise-bush-2
+model size: 1060.6953887939453
+number of params: 278052876
+number of trainable params: 278052876
+average inference time: 0.07900649706300324
+nr of epochs: 10
+nr of rep: 0
+datetime: 17/04/2023 14:09:04

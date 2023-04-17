@@ -1,0 +1,9 @@
+MTL_mix2_rev_xlmr_emocls_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/stoic-yogurt-1
+model size: 1061.0386085510254
+number of params: 278142849
+number of trainable params: 278142849
+average inference time: 0.02625648768742879
+nr of epochs: 10
+nr of rep: 0
+datetime: 17/04/2023 14:11:40

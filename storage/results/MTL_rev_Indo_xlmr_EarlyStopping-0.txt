@@ -1,0 +1,9 @@
+MTL_rev_Indo_xlmr_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/faithful-star-21
+model size: 1060.7863273620605
+number of params: 278076715
+number of trainable params: 278076715
+average inference time: 0.04035205597877501
+nr of epochs: 10
+nr of rep: 0
+datetime: 17/04/2023 14:13:57
