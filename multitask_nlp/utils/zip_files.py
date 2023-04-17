@@ -1,5 +1,6 @@
 from zipfile import ZipFile
 import os
+import shutil
 from os.path import basename
 from datetime import date
 from multitask_nlp.settings import RESULTS_DIR, CHECKPOINTS_DIR
@@ -33,12 +34,25 @@ def get_df():
     df = df.fillna(0)
     return df
 
+def delete_unrelated_folders(checkpoint_names):
+    for checkpoint_name in checkpoint_names:
+        for folderName, subfolders, filenames in os.walk(CHECKPOINTS_DIR):
+            path = CHECKPOINTS_DIR / folderName
+            if checkpoint_name not in subfolders and checkpoint_name not in folderName:
+                shutil.rmtree(path) 
+
 if __name__ == "__main__":
     df = get_df()
     models = {}
     paths = []
+    checkpoint_names = []
     for i, row in df.iterrows():
         models[row["short_task_name"]] = row["last_checkpoint_name"]
         paths.append(CHECKPOINTS_DIR / row["last_checkpoint_name"])
-
-    zip_file(paths)
+        checkpoint_names.append(row["last_checkpoint_name"])
+    
+    print(checkpoint_names)
+        
+    # delete_unrelated_folders(checkpoint_names)
+    # zip_file(paths)
+    
