@@ -1,0 +1,9 @@
+EmotEmotionTwitter_xlmr_singleExp_EarlyStopping
+ckpt_path: /notebooks/multitask_nlp/storage/checkpoints/major-capybara-7
+model size: 1060.6895217895508
+number of params: 278051338
+number of trainable params: 278051338
+average inference time: 0.18741132136753627
+nr of epochs: 10
+nr of rep: 0
+datetime: 17/04/2023 16:08:59

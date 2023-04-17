@@ -1,0 +1,9 @@
+MTL_rev2_Indo_xlmr_EarlyStopping
+ckpt_path: /notebooks/multitask_nlp/storage/checkpoints/distinctive-totem-3
+model size: 1060.7628593444824
+number of params: 278070563
+number of trainable params: 278070563
+average inference time: 0.07723175666445785
+nr of epochs: 10
+nr of rep: 0
+datetime: 17/04/2023 17:21:35
