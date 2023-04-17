@@ -43,13 +43,13 @@ wandb_project_name = 'MTL_rev_Indo_xlmr_EarlyStopping'
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = False
-ckpt_path = CHECKPOINTS_DIR / "vermilion-mandu-36"
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "faithful-star-21"
 
 def run_experiments():
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
-    rep_num = 5
+    rep_num = 1 if analyze_latest_model else 5
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']

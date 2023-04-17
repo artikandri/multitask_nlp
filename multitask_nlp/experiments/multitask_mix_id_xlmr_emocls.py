@@ -41,13 +41,15 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 
-analyze_latest_model = False
+analyze_latest_model = True
 ckpt_path = CHECKPOINTS_DIR 
 
 def run_experiments():
     model_types = ['multitask_transformer']
     model_names = ['xlmr']
-    rep_num = 5
+    
+    rep_num = 1 if analyze_latest_model else 5
+
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']
@@ -222,7 +224,7 @@ def run_experiments():
 
                     if analyze_latest_model:
                         ckpt_paths = {
-                            "xlmr": "logical-sky-4",
+                            "xlmr": "firm-haze-2",
                         }
                         ckpt_path = CHECKPOINTS_DIR / ckpt_paths[model_name]
                         if  os.path.exists(ckpt_path):
