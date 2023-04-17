@@ -7,7 +7,7 @@ from multitask_nlp.datasets.base_datamodule import BaseDataModule
 from multitask_nlp.settings import EMOT_EMOTION_TWITTER_DATA
 
 DEFAULT_RANDOM = 42
-DEFAULT_SPLITS = [0.7, 0.15, 0.15]
+DEFAULT_SPLITS = [0.6, 0.2, 0.2]
 ANNOTATION_COLUMNS = ['love', 'fear', 'anger', 'sadness', 'happy']
 
 class EmotEmotionTwitterDataModule(BaseDataModule):

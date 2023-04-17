@@ -11,7 +11,7 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
-from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
+from multitask_nlp.datasets.indonlu.emot_emotion_twitter import EmotEmotionTwitterDataModule
 from multitask_nlp.datasets.indonlu.facqa_qa_factoid_itb import FacqaQaFactoidItbDataModule
 from multitask_nlp.datasets.indonlu.wrete_entailment_ui import WreteEntailmentUiDataModule
 from multitask_nlp.datasets.goemotions.goemotions import GoEmotionsDataModule
@@ -82,7 +82,7 @@ def run_experiments():
         GoEmotionsDataModule: {"batch_size": batch_size}, #emotions
         StudEmoDataModule: {"batch_size": batch_size}, #emotions
         IndonesianEmotionDataModule: {"batch_size": batch_size}, #emotions
-        CasaAbsaProsaDataModule: {"batch_size": batch_size}, #sentiment
+        EmotEmotionTwitterDataModule: {"batch_size": batch_size}, #emotions
     }
     task_to_not_log_detailed = ['GoEmotions']
 
@@ -114,7 +114,7 @@ def run_experiments():
         product(model_types, model_names, loss_args_list):
         model_cls = models_dict[model_type]
 
-        wandb_project_name = f'MTL_mix2_rev_{model_name}_emocls_EarlyStopping'
+        wandb_project_name = f'MTL_mix2_rev2_{model_name}_emocls_EarlyStopping'
 
         uncertainty_loss, scaling_type = loss_args
         hparams = {

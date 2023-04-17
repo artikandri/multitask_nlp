@@ -16,7 +16,7 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
-from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
+from multitask_nlp.datasets.indonlu.emot_emotion_twitter import EmotEmotionTwitterDataModule
 from multitask_nlp.datasets.indonlu.facqa_qa_factoid_itb import FacqaQaFactoidItbDataModule
 from multitask_nlp.datasets.indonlu.wrete_entailment_ui import WreteEntailmentUiDataModule
 from multitask_nlp.datasets.goemotions.goemotions import GoEmotionsDataModule
@@ -87,7 +87,7 @@ def run_experiments():
         GoEmotionsDataModule: {"batch_size": batch_size}, #emotions
         StudEmoDataModule: {"batch_size": batch_size}, #emotions
         IndonesianEmotionDataModule: {"batch_size": batch_size}, #emotions
-        CasaAbsaProsaDataModule: {"batch_size": batch_size}, #sentiment
+        EmotEmotionTwitterDataModule: {"batch_size": batch_size}, #emotions
         WreteEntailmentUiDataModule: {"batch_size": batch_size}, #entailment
         SNLI_DataModule:  {"batch_size": batch_size}, #entailment
         NerpNerProsaDataModule: {"batch_size": batch_size}, #ner 
@@ -229,7 +229,7 @@ def run_experiments():
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
 
-                    wandb_project_name = f'MTL_rev_mix_{model_name}_EarlyStopping'
+                    wandb_project_name = f'MTL_rev2_mix_{model_name}_EarlyStopping'
 
 
                     if analyze_latest_model:
@@ -241,9 +241,7 @@ def run_experiments():
                             ckpt_files = os.listdir(ckpt_path)
                             if ckpt_files:
                                 ckpt_file = ckpt_files[0]
-                                # device = torch.device("cuda")
                                 model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
-                                # model2.to(device)
                                 size = get_size(model2)
                                 total_params, trainable_params = get_params(model2)
                                 exp_custom_callbacks = copy(custom_callbacks)

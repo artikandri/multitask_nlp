@@ -51,7 +51,6 @@ if __name__ == "__main__":
         paths.append(CHECKPOINTS_DIR / row["last_checkpoint_name"])
         checkpoint_names.append(row["last_checkpoint_name"])
     
-    print(checkpoint_names)
         
     delete_unrelated_folders(checkpoint_names)
     zip_file(paths)

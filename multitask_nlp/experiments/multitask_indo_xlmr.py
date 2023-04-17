@@ -38,12 +38,12 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_rev_Indo_xlmr_EarlyStopping'
+wandb_project_name = 'MTL_rev2_Indo_xlmr_EarlyStopping'
 
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "faithful-star-21"
 
 def run_experiments():
@@ -81,7 +81,7 @@ def run_experiments():
     T_max_list = [5]
 
     task_datamodules_setup = {
-        CasaAbsaProsaDataModule: {"batch_size": batch_size},
+        EmotEmotionTwitterDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
         NerpNerProsaDataModule: {"batch_size": batch_size},
         IndonesianEmotionDataModule: {"batch_size": batch_size},
@@ -225,9 +225,7 @@ def run_experiments():
                             ckpt_files = os.listdir(ckpt_path)
                             if ckpt_files:
                                 ckpt_file = ckpt_files[0]
-                                # device = torch.device("cuda")
                                 model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
-                                # model2.to(device)
                                 size = get_size(model2)
                                 total_params, trainable_params = get_params(model2)
                                 exp_custom_callbacks = copy(custom_callbacks)
