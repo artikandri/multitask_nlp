@@ -41,7 +41,7 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 
-analyze_latest_model = False
+analyze_latest_model = True
 ckpt_path = CHECKPOINTS_DIR 
 
 def run_experiments():
@@ -224,7 +224,7 @@ def run_experiments():
 
                     if analyze_latest_model:
                         ckpt_paths = {
-                            "xlmr": "firm-haze-2",
+                            "xlmr": "dry-grass-12",
                         }
                         ckpt_path = CHECKPOINTS_DIR / ckpt_paths[model_name]
                         if  os.path.exists(ckpt_path):

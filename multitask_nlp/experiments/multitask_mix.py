@@ -46,7 +46,7 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = False
+analyze_latest_model = True
 
 def run_experiments():
     model_types = ['multitask_transformer']
@@ -234,7 +234,7 @@ def run_experiments():
 
                     if analyze_latest_model:
                         ckpt_paths = {
-                            "xlmr": "woven-lake-3",
+                            "xlmr": "genial-firefly-7",
                         }
                         ckpt_path = CHECKPOINTS_DIR / ckpt_paths[model_name]
                         if  os.path.exists(ckpt_path):
