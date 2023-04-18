@@ -1,0 +1,9 @@
+MTL_mix2_rev2_xlmr_emocls_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/vibrant-aardvark-4
+model size: 1061.0151405334473
+number of params: 278136697
+number of trainable params: 278136697
+average inference time: 0.04341510338442666
+nr of epochs: 10
+nr of rep: 0
+datetime: 18/04/2023 13:16:31
