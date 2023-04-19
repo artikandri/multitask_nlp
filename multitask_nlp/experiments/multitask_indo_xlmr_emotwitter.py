@@ -38,7 +38,7 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_mix_pair_Indo_indoemo_xlmr_EarlyStopping'
+wandb_project_name = 'MTL_mix_pair_Indo_emotwitter_xlmr_EarlyStopping'
 
 RANDOM_SEED = 2023
 
@@ -81,10 +81,10 @@ def run_experiments():
     T_max_list = [5]
 
     task_datamodules_setup = {
-        # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        EmotEmotionTwitterDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
         NerpNerProsaDataModule: {"batch_size": batch_size},
-        IndonesianEmotionDataModule: {"batch_size": batch_size},
+        # IndonesianEmotionDataModule: {"batch_size": batch_size},
     }
 
     lightning_model_kwargs = {
