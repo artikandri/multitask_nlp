@@ -81,7 +81,7 @@ def run_experiments():
     T_max_list = [5]
 
     task_datamodules_setup = {
-        # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        EmotEmotionTwitterDataModule: {"batch_size": batch_size},
         WreteEntailmentUiDataModule: {"batch_size": batch_size },
         NerpNerProsaDataModule: {"batch_size": batch_size},
         IndonesianEmotionDataModule: {"batch_size": batch_size},
@@ -114,7 +114,7 @@ def run_experiments():
             product(model_types, model_names, loss_args_list):
         model_cls = models_dict[model_type]
 
-        wandb_project_name = f'MTL_Indo_{model_name}_EarlyStopping'
+        wandb_project_name = f'MTL_rev3_Indo_{model_name}_EarlyStopping'
 
 
         uncertainty_loss, scaling_type = loss_args
