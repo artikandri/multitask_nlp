@@ -1,32 +1,28 @@
 import os
-from copy import copy
+from copy import copy, deepcopy
 from itertools import product
 from typing import List
-import gc   
 
-gc.collect()   
-
-os.environ["CUDA_VISIBLE_DEVICES"] = "0, 2, 3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 import torch
-torch.cuda.empty_cache()
-
 import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 
 from multitask_nlp.datasets import multitask_datasets as multitask_datasets_dict
+
 from multitask_nlp.datasets.indonlu.casa_absa_prosa import CasaAbsaProsaDataModule
+from multitask_nlp.datasets.indonlu.emot_emotion_twitter import EmotEmotionTwitterDataModule
 from multitask_nlp.datasets.indonlu.facqa_qa_factoid_itb import FacqaQaFactoidItbDataModule
+from multitask_nlp.datasets.indonlu.hoasa_absa_airy import HoasaAbsaAiryDataModule
 from multitask_nlp.datasets.indonlu.wrete_entailment_ui import WreteEntailmentUiDataModule
-from multitask_nlp.datasets.goemotions.goemotions import GoEmotionsDataModule
-from multitask_nlp.datasets.studemo.studemo import StudEmoDataModule
-from multitask_nlp.datasets.snli.snli import SNLI_DataModule
-from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
-from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
+from multitask_nlp.datasets.indonlu.nergrit_ner_grit import NerGritDataModule
+from multitask_nlp.datasets.indonlu.keps_keyword_extraction_prosa import KepsKeywordExtractionProsaDataModule
 from multitask_nlp.datasets.indonlu.nerp_ner_prosa import NerpNerProsaDataModule
 from multitask_nlp.datasets.indonlu.smsa_doc_sentiment_prosa import SmsaDocSentimentProsaDataModule
-from multitask_nlp.datasets.conll2003.conll2003 import Conll2003DataModule
+from multitask_nlp.datasets.indonesian_emotion.indonesian_emotion import IndonesianEmotionDataModule
+from multitask_nlp.datasets.multitask_datamodule import MultiTaskDataModule
 
 from multitask_nlp.learning.train_test import train_test, load_model, load_and_predict
 from multitask_nlp.utils.file_loading import write_as_txt_file
@@ -42,25 +38,24 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_en_xlmr_EarlyStopping'
+
 
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
-ckpt_path = CHECKPOINTS_DIR / "bright-peony-2/epoch=0-step=58.ckpt"
-
+analyze_latest_model = False
+ckpt_path = CHECKPOINTS_DIR / "faithful-star-21"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
-    rep_num = 1
+    model_names = ['indo-bert', 'bert', 'labse' ]
+    rep_num = 1 if analyze_latest_model else 5
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']
 
-    max_length = 512
-    batch_size = 8
+    max_length = 256
+    batch_size = 16
     epochs = 10
     lr_rate = 1e-5
     weight_decay = 0.01
@@ -86,17 +81,15 @@ def run_experiments():
     T_max_list = [5]
 
     task_datamodules_setup = {
-        GoEmotionsDataModule: {"batch_size": batch_size}, #emotions
-        StudEmoDataModule: {"batch_size": batch_size}, #emotions
-        SNLI_DataModule:  {"batch_size": batch_size}, #entailment
-        Conll2003DataModule: {"batch_size": batch_size}, #ner
+        # EmotEmotionTwitterDataModule: {"batch_size": batch_size},
+        WreteEntailmentUiDataModule: {"batch_size": batch_size },
+        NerpNerProsaDataModule: {"batch_size": batch_size},
+        IndonesianEmotionDataModule: {"batch_size": batch_size},
     }
-    task_to_not_log_detailed = ['GoEmotions']
 
     lightning_model_kwargs = {
         'lr_scheduling': lr_scheduling,
-        'warmup_proportion': warmup_proportion,
-        'tasks_to_not_log_detailed_metrics': task_to_not_log_detailed
+        'warmup_proportion': warmup_proportion
     }
 
     tasks_datamodules = []
@@ -118,8 +111,11 @@ def run_experiments():
 
     seed_everything()
     for model_type, model_name, loss_args in \
-        product(model_types, model_names, loss_args_list):
+            product(model_types, model_names, loss_args_list):
         model_cls = models_dict[model_type]
+
+        wandb_project_name = f'MTL_Indo_{model_name}_EarlyStopping'
+
 
         uncertainty_loss, scaling_type = loss_args
         hparams = {
@@ -132,7 +128,7 @@ def run_experiments():
             "warmup_proportion": warmup_proportion,
             "max_length": max_length,
             "uncertainty_loss": uncertainty_loss,
-            "scaling_type": scaling_type
+            "scaling_type": scaling_type,
         }
 
         used_lightning_model_kwargs = copy(lightning_model_kwargs).update({
@@ -203,7 +199,7 @@ def run_experiments():
                     mtl_extra_callbacks.append(None)
 
                 for multitask_dataset_args, mtl_extra_callback in \
-                    product(multitask_dataset_args_list, mtl_extra_callbacks):
+                        product(multitask_dataset_args_list, mtl_extra_callbacks):
 
                     mtl_custom_callbacks = copy(custom_callbacks)
                     if mtl_extra_callback is not None:
@@ -226,28 +222,32 @@ def run_experiments():
                     hparams_copy["dataset"] = datasets_string
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
-                    
-                    if analyze_latest_model and os.path.exists(ckpt_path):
-                        model2 = load_model(model, ckpt_path=ckpt_path)
-                        # model2.to(device)
-                        size = get_size(model2)
-                        total_params, trainable_params = get_params(model2)
-                        exp_custom_callbacks = copy(custom_callbacks)
-                        
-                        predictions, avg_time = load_and_predict(
-                            datamodule=data_module,
-                            model=model2,
-                            epochs=epochs,
-                            lr=lr_rate,
-                            logger=None,
-                            exp_name=wandb_project_name,
-                            weight_decay=weight_decay,
-                            use_cuda=use_cuda,
-                            custom_callbacks=exp_custom_callbacks,
-                            lightning_model_kwargs=lightning_model_kwargs
-                        )
-                        
-                        results = [wandb_project_name,
+
+                    if analyze_latest_model:
+                        if  os.path.exists(ckpt_path):
+                            ckpt_files = os.listdir(ckpt_path)
+                            if ckpt_files:
+                                ckpt_file = ckpt_files[0]
+                                model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                                size = get_size(model2)
+                                total_params, trainable_params = get_params(model2)
+                                exp_custom_callbacks = copy(custom_callbacks)
+                                
+                                
+                                predictions, avg_time = load_and_predict(
+                                    datamodule=data_module,
+                                    model=model2,
+                                    epochs=epochs,
+                                    lr=lr_rate,
+                                    logger=None,
+                                    exp_name=wandb_project_name,
+                                    weight_decay=weight_decay,
+                                    use_cuda=use_cuda,
+                                    custom_callbacks=exp_custom_callbacks,
+                                    lightning_model_kwargs=lightning_model_kwargs
+                                )
+                                
+                                results = [wandb_project_name,
                                         f"ckpt_path: {ckpt_path}" ,
                                         f"model size: {size}" ,
                                         f"number of params: {total_params}",
@@ -256,19 +256,79 @@ def run_experiments():
                                         f"nr of epochs: {epochs}",
                                         f"nr of rep: {i}"]
                                         
-                        write_as_txt_file(results, f"{wandb_project_name}-{i}")  
+                                write_as_txt_file(results, f"{wandb_project_name}-{i}")  
+                        else:
+                            print("checkpoint path doesnt exist")
                     else:
                         run_training(
                             model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
                             custom_callbacks=mtl_custom_callbacks,
                             lightning_model_kwargs=used_lightning_model_kwargs,
-                            trainer_kwargs=trainer_kwargs
+                            trainer_kwargs=trainer_kwargs,
+                            wandb_project_name=wandb_project_name
                         )
 
+                    # Fine-tuning of MTL model for a single task
+                    for data_module in tasks_datamodules:
+                        model_to_finetune = deepcopy(model)
+
+                        hparams_copy = copy(hparams)
+                        hparams_copy["learning_kind"] = 'MTL Finetuning'
+                        hparams_copy["dataset"] = data_module.task_name
+                        hparams_copy["mt_dataset_type"] = multitask_dataset_type
+                        hparams_copy.update(multitask_dataset_args)
+
+
+                        if analyze_latest_model:
+                            if  os.path.exists(ckpt_path):
+                                ckpt_files = os.listdir(ckpt_path)
+                                if ckpt_files:
+                                    ckpt_file = ckpt_files[0]
+                                    # device = torch.device("cuda")
+                                    model2 = load_model(model, ckpt_path=ckpt_path/ckpt_file)
+                                    # model2.to(device)
+                                    size = get_size(model2)
+                                    total_params, trainable_params = get_params(model2)
+                                    exp_custom_callbacks = copy(custom_callbacks)
+                                    
+                                    
+                                    predictions, avg_time = load_and_predict(
+                                        datamodule=data_module,
+                                        model=model2,
+                                        epochs=epochs,
+                                        lr=lr_rate,
+                                        logger=None,
+                                        exp_name=wandb_project_name,
+                                        weight_decay=weight_decay,
+                                        use_cuda=use_cuda,
+                                        custom_callbacks=exp_custom_callbacks,
+                                        lightning_model_kwargs=lightning_model_kwargs
+                                    )
+                                    
+                                    results = [wandb_project_name,
+                                            f"ckpt_path: {ckpt_path}" ,
+                                            f"model size: {size}" ,
+                                            f"number of params: {total_params}",
+                                            f"number of trainable params: {trainable_params}" ,
+                                            f"average inference time: {avg_time}",
+                                            f"nr of epochs: {epochs}"]
+                                            
+                                    write_as_txt_file(results, wandb_project_name) 
+                            else:
+                                print("checkpoint path doesnt exist")
+                        else:
+                            run_training(
+                                model_to_finetune, data_module, hparams_copy,
+                                epochs, lr_rate, weight_decay,
+                                custom_callbacks=custom_callbacks,
+                                lightning_model_kwargs=lightning_model_kwargs,
+                                trainer_kwargs=trainer_kwargs,
+                                wandb_project_name=wandb_project_name
+                            )
 
 
 def run_training(model, datamodule, hparams, epochs, lr_rate, weight_decay, custom_callbacks,
-                 lightning_model_kwargs=None, trainer_kwargs=None):
+                 lightning_model_kwargs=None, trainer_kwargs=None,wandb_project_name=""):
     logger = pl_loggers.WandbLogger(
         save_dir=str(LOGS_DIR),
         config=hparams,

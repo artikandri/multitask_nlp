@@ -46,11 +46,11 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
+analyze_latest_model = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['indo-bert', 'bert', 'labse' ]
     rep_num = 1 if analyze_latest_model else 5
 
 
@@ -229,7 +229,7 @@ def run_experiments():
                     hparams_copy["mt_dataset_type"] = multitask_dataset_type
                     hparams_copy.update(multitask_dataset_args)
 
-                    wandb_project_name = f'MTL_rev2_mix_{model_name}_EarlyStopping'
+                    wandb_project_name = f'MTL_mix_{model_name}_EarlyStopping'
 
 
                     if analyze_latest_model:
@@ -278,7 +278,8 @@ def run_experiments():
                             model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
                             custom_callbacks=mtl_custom_callbacks,
                             lightning_model_kwargs=used_lightning_model_kwargs,
-                            trainer_kwargs=trainer_kwargs, wandb_project_name=wandb_project_name
+                            trainer_kwargs=trainer_kwargs, 
+                            wandb_project_name=wandb_project_name
                         )
 
 
