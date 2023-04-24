@@ -43,10 +43,12 @@ def delete_unrelated_folders(checkpoint_names):
         for folderName, subfolders, filenames in checkpoints:
             path = CHECKPOINTS_DIR / folderName
             if checkpoint_name not in subfolders and checkpoint_name not in folderName:
-                print(f"---{folderName} on {path} will be deleted ---") 
+                print(f"---{folderName} will be deleted ---") 
                 deleted_folders.append(folderName)              
-                # shutil.rmtree(folderName) 
+                shutil.rmtree(folderName) 
     print(f"{len(deleted_folders) - 1} folders have been deleted...")
+    deleted_folders.append("List of kept folders: ")
+    deleted_folders = deleted_folders + checkpoint_names
     write_as_txt_file(deleted_folders, file_name=f"deleted_folders_{date.today()}")
 
 if __name__ == "__main__":
