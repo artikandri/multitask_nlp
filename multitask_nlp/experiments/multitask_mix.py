@@ -6,7 +6,7 @@ import gc
 
 gc.collect()   
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 import torch
 torch.cuda.empty_cache()
@@ -47,11 +47,12 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 analyze_latest_model = False
+reduce_rep = True
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['labse']
-    rep_num = 1 if analyze_latest_model else 5
+    model_names = ['labse', 'bert', 'indo-bert', 'indo-roberta']
+    rep_num = 1 if analyze_latest_model else (1 if reduce_rep else 5)
 
 
     loss_args_list = [(False, None)]
