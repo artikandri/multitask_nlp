@@ -1,9 +1,11 @@
 from zipfile import ZipFile
 import os
 import shutil
+from datetime import date
 from os.path import basename
 from datetime import date
 from multitask_nlp.settings import RESULTS_DIR, CHECKPOINTS_DIR
+from multitask_nlp.utils.file_loading import write_as_txt_file
 import pandas as pd
 
 project_root = RESULTS_DIR
@@ -35,12 +37,17 @@ def get_df():
     return df
 
 def delete_unrelated_folders(checkpoint_names):
+    checkpoints = list(os.walk(CHECKPOINTS_DIR))[1:]
+    deleted_folders = ["List of deleted folders: "]
     for checkpoint_name in checkpoint_names:
-        for folderName, subfolders, filenames in os.walk(CHECKPOINTS_DIR):
+        for folderName, subfolders, filenames in checkpoints:
             path = CHECKPOINTS_DIR / folderName
             if checkpoint_name not in subfolders and checkpoint_name not in folderName:
-                print(f"---{folderName} on {path} will be deleted ---")               
+                print(f"---{folderName} on {path} will be deleted ---") 
+                deleted_folders.append(folderName)              
                 # shutil.rmtree(folderName) 
+    print(f"{len(deleted_folders) - 1} folders have been deleted...")
+    write_as_txt_file(deleted_folders, file_name=f"deleted_folders_{date.today()}")
 
 if __name__ == "__main__":
     df = get_df()
