@@ -36,6 +36,7 @@ def get_df():
     df = df.fillna(0)
     return df
 
+# jangan pernah hapus2 lagi! scriptnya gagal dua kali!
 def delete_unrelated_folders(checkpoint_names):
     checkpoints = list(os.walk(CHECKPOINTS_DIR))[1:]
     deleted_folders = ["List of deleted folders: "]
@@ -45,7 +46,7 @@ def delete_unrelated_folders(checkpoint_names):
             if checkpoint_name not in subfolders and checkpoint_name not in folderName:
                 print(f"---{folderName} will be deleted ---") 
                 deleted_folders.append(folderName)              
-                shutil.rmtree(folderName) 
+                # shutil.rmtree(folderName) 
     print(f"{len(deleted_folders) - 1} folders have been deleted...")
     deleted_folders.append("List of kept folders: ")
     deleted_folders = deleted_folders + checkpoint_names
@@ -70,6 +71,6 @@ if __name__ == "__main__":
         'genial-firefly-7' 'brisk-resonance-1' 'frosty-universe-25'
         'dandy-totem-5' 'robust-salad-1' 'icy-wildflower-25' 'frosty-eon-1']
         
-    delete_unrelated_folders(checkpoint_names)
+    # delete_unrelated_folders(checkpoint_names)
     # zip_file(paths)
     

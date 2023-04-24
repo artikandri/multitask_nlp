@@ -50,7 +50,7 @@ analyze_latest_model = False
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['indo-bert', 'bert', 'labse' ]
+    model_names = ['labse']
     rep_num = 1 if analyze_latest_model else 5
 
 
@@ -58,7 +58,7 @@ def run_experiments():
     multitask_dataset_types = ['sampling']
 
     max_length = 256
-    batch_size = 16
+    batch_size = 12
     epochs = 10
     lr_rate = 1e-5
     weight_decay = 0.01

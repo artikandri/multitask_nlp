@@ -58,8 +58,8 @@ def run_experiments():
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']
 
-    max_length = 512
-    batch_size = 8
+    max_length = 256
+    batch_size = 12
     epochs = 10
     lr_rate = 1e-5
     weight_decay = 0.01
