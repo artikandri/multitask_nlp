@@ -46,8 +46,8 @@ ckpt_path = CHECKPOINTS_DIR / "zesty-planet-5"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
-    rep_num = 1
+    model_names = ['labse']
+    rep_num = 1 if analyze_latest_model else 3
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']

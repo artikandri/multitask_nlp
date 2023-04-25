@@ -22,15 +22,15 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "major-capybara-7"
 
 if __name__ == "__main__":
     datamodule_cls = EmotEmotionTwitterDataModule
 
-    rep_num = 1 if analyze_latest_model else 5
+    rep_num = 1 if analyze_latest_model else 3
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['labse']
 
     max_length = 256
     lr_rate = 1e-4

@@ -27,7 +27,7 @@ if __name__ == "__main__":
     model_types = ['multitask_transformer']
     model_names = ['indo-roberta']
 
-    wandb_project_name = 'FacqaQAFactoidItb_xlmr_singleExp_EarlyStopping'
+    wandb_project_name = 'FacqaQAFactoidItb_indo-roberta_singleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-4

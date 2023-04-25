@@ -48,8 +48,8 @@ ckpt_path = CHECKPOINTS_DIR / "faithful-star-21"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['indo-bert', 'bert', 'labse' ]
-    rep_num = 1 if analyze_latest_model else 5
+    model_names = ['labse', 'indo-bert', 'bert' ]
+    rep_num = 1 if analyze_latest_model else 3
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']

@@ -38,7 +38,7 @@ from multitask_nlp.utils.callbacks.mtl_dataloader_manager import ValidDatasetRes
 os.environ["WANDB_START_METHOD"] = "thread"
 
 use_cuda = True
-wandb_project_name = 'MTL_mix_pair_Indo_emotwitter_xlmr_EarlyStopping'
+wandb_project_name = 'MTL_mix_pair_Indo_emotwitter_labse_EarlyStopping'
 
 RANDOM_SEED = 2023
 
@@ -48,8 +48,8 @@ ckpt_path = CHECKPOINTS_DIR / "faithful-star-21"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
-    rep_num = 1 if analyze_latest_model else 5
+    model_names = ['labse']
+    rep_num = 1 if analyze_latest_model else 3
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']

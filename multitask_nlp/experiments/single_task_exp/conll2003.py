@@ -23,16 +23,16 @@ os.environ["WANDB_START_METHOD"] = "thread"
 RANDOM_SEED = 2023
 
 
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "sweet-wave-2"
 
 if __name__ == "__main__":
     datamodule_cls = Conll2003DataModule
-    rep_num = 1
+    rep_num = 1 if analyze_latest_model else 3
 
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
-    wandb_project_name = 'Conll2003_xlmr_SingleExp_EarlyStopping'
+    model_names = ['labse']
+    wandb_project_name = 'Conll2003_labse_SingleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-5

@@ -41,14 +41,14 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR 
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['labse']
     
-    rep_num = 1 if analyze_latest_model else 5
+    rep_num = 1 if analyze_latest_model else 3
 
 
     loss_args_list = [(False, None)]

@@ -26,7 +26,7 @@ os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
 
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "celestial-darkness-12"
 
 if __name__ == "__main__":
@@ -34,8 +34,8 @@ if __name__ == "__main__":
     rep_num = 1
 
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
-    wandb_project_name = 'StudEmo_xlmr_SingleExp_EarlyStopping'
+    model_names = ['labse']
+    wandb_project_name = 'StudEmo_labse_SingleExp_EarlyStopping'
    
     max_length = 256
     lr_rate = 1e-3

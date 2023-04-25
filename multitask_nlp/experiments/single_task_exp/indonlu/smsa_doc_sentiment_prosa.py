@@ -24,13 +24,13 @@ from multitask_nlp.utils import seed_everything
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "lemon-bush-17"
 
 if __name__ == "__main__":
     datamodule_cls = SmsaDocSentimentProsaDataModule
 
-    rep_num = 1
+    rep_num = 1 if analyze_latest_model else 3
     model_types = ['multitask_transformer']
     model_names = ['xlmr', 'indo-roberta']
 

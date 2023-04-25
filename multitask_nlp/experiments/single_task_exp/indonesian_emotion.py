@@ -28,7 +28,7 @@ ckpt_path = CHECKPOINTS_DIR / "wise-bush-2"
 if __name__ == "__main__":
     datamodule_cls = IndonesianEmotionDataModule
 
-    rep_num = 1
+    rep_num = 1 if analyze_latest_model else 3
     model_types = ['multitask_transformer']
     model_names = ['labse']
 
