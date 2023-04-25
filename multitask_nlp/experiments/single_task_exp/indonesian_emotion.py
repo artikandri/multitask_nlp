@@ -21,7 +21,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "wise-bush-2"
 
 
@@ -30,9 +30,9 @@ if __name__ == "__main__":
 
     rep_num = 1
     model_types = ['multitask_transformer']
-    model_names = ['xlmr']
+    model_names = ['labse']
 
-    wandb_project_name = 'IndonesianEmotion_rev_xlmr_singleExp_EarlyStopping'
+    wandb_project_name = 'IndonesianEmotion_labse_singleExp_EarlyStopping'
 
     max_length = 256
     lr_rate = 1e-4
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     weight_decay = 0.01
     warmup_proportion = 0.1
 
-    use_cuda = True
+    use_cuda = False
     custom_callbacks: List[pl.Callback] = [
         LearningRateMonitor()
     ]
