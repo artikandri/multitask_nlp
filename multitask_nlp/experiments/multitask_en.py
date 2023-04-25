@@ -53,8 +53,8 @@ ckpt_path = CHECKPOINTS_DIR / "bright-peony-2/epoch=0-step=58.ckpt"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ["bert", 'indo-bert']
-    rep_num = 1 if analyze_latest_model else (1 if reduce_rep else 5)
+    model_names = ['labse']
+    rep_num = 1 if analyze_latest_model else (3 if reduce_rep else 5)
 
     loss_args_list = [(False, None)]
     multitask_dataset_types = ['sampling']
