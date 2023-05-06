@@ -76,6 +76,7 @@ TRANSFORMER_MODEL_STRINGS = {
     'xlmr': 'xlm-roberta-base',
     'xlmr-large': 'xlm-roberta-large',
     'bert': 'bert-base-cased',
+    'bertm': 'bert-base-multilingual-cased',
     'distilbert': 'distilbert-base-cased',
     'deberta': 'microsoft/deberta-large',
     'roberta': 'roberta-base',

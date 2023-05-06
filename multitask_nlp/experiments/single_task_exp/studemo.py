@@ -31,7 +31,7 @@ ckpt_path = CHECKPOINTS_DIR / "celestial-darkness-12"
 
 if __name__ == "__main__":
     datamodule_cls = StudEmoDataModule
-    rep_num = 1
+    rep_num = 3
 
     model_types = ['multitask_transformer']
     model_names = ['labse']

@@ -51,7 +51,7 @@ reduce_rep = True
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['labse', 'bert', 'indo-bert', 'indo-roberta']
+    model_names = ['bertm']
     rep_num = 1 if analyze_latest_model else (3 if reduce_rep else 5)
 
 

@@ -74,7 +74,6 @@ class MultitaskTransformer(nn.Module):
             tasks_datamodules = [tasks_datamodules]
 
         for task_dm in tasks_datamodules:
-            print(task_dm)
             task_kind = task_dm.task_type
             task_category = task_dm.task_category
 
