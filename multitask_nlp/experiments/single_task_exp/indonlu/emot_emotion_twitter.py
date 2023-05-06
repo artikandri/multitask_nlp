@@ -18,7 +18,7 @@ from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     rep_num = 1 if analyze_latest_model else 3
     model_types = ['multitask_transformer']
-    model_names = ['labse']
+    model_names = ['labse', 'bertm']
 
     max_length = 256
     lr_rate = 1e-4
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     weight_decay = 0.01
     warmup_proportion = 0.1
 
-    use_cuda = True
+    use_cuda = False
     custom_callbacks: List[pl.Callback] = [
         LearningRateMonitor()
     ]
