@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     rep_num = 1 if analyze_latest_model else 3
     model_types = ['multitask_transformer']
-    model_names = ['labse', 'bertm']
+    model_names = ['labse']
 
     max_length = 256
     lr_rate = 1e-4

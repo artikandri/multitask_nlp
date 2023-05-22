@@ -18,7 +18,7 @@ from multitask_nlp.models import models as models_dict
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     max_length = 256
     lr_rate = 1e-4
     epochs = 10
-    batch_size = 32
+    batch_size = 16
     weight_decay = 0.01
     warmup_proportion = 0.1
 
