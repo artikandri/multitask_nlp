@@ -37,11 +37,11 @@ if __name__ == "__main__":
     max_length = 256
     lr_rate = 1e-5
     epochs = 10
-    batch_size = 32
+    batch_size = 16
     weight_decay = 0.1
     warmup_proportion = 0.06
 
-    use_cuda = True
+    use_cuda = False
     custom_callbacks: List[pl.Callback] = [
         LearningRateMonitor()
     ]
