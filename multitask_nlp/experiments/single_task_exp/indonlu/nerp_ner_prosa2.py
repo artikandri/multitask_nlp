@@ -149,11 +149,13 @@ def run_experiments():
                     hparams_copy = copy(hparams)
                     hparams_copy["learning_kind"] = 'STL'
                     hparams_copy["dataset"] = data_module.task_name
+                    
                     run_training(
-                        model, data_module, hparams_copy, epochs, lr_rate, weight_decay,
-                        custom_callbacks=custom_callbacks,
+                        model, mtl_datamodule, hparams_copy, epochs, lr_rate, weight_decay,
+                        custom_callbacks=mtl_custom_callbacks,
                         lightning_model_kwargs=used_lightning_model_kwargs,
-                        trainer_kwargs=trainer_kwargs
+                        trainer_kwargs=trainer_kwargs,
+                        wandb_project_name=wandb_project_name
                     )
 
             # Multi-Task learning
