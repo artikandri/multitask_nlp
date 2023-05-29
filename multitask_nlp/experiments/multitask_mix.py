@@ -46,12 +46,12 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = False
+analyze_latest_model = True
 reduce_rep = True
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['roberta']
+    model_names = ['labse']
     rep_num = 1 if analyze_latest_model else (3 if reduce_rep else 5)
 
 
@@ -236,6 +236,7 @@ def run_experiments():
                     if analyze_latest_model:
                         ckpt_paths = {
                             "xlmr": "genial-firefly-7",
+                            "labse": "fanciful-music-3"
                         }
                         ckpt_path = CHECKPOINTS_DIR / ckpt_paths[model_name]
                         if  os.path.exists(ckpt_path):

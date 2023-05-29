@@ -40,8 +40,8 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = False
-ckpt_path = CHECKPOINTS_DIR / "vibrant-aardvark-4"
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "drawn-wave-8"
 
 
 def run_experiments():

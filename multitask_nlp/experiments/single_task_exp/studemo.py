@@ -21,13 +21,13 @@ from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 from multitask_nlp.utils import seed_everything
 
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
 
-analyze_latest_model = False
-ckpt_path = CHECKPOINTS_DIR / "celestial-darkness-12"
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "deft-snowball-6"
 
 if __name__ == "__main__":
     datamodule_cls = StudEmoDataModule

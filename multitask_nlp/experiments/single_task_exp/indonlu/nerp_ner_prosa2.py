@@ -43,8 +43,8 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = True
-analyze_latest_model = False
-ckpt_path = CHECKPOINTS_DIR / "faithful-star-21"
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "hardy-snowball-7"
 
 def run_experiments():
     model_types = ['multitask_transformer']

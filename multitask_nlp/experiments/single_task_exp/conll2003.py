@@ -23,8 +23,8 @@ os.environ["WANDB_START_METHOD"] = "thread"
 RANDOM_SEED = 2023
 
 
-analyze_latest_model = False
-ckpt_path = CHECKPOINTS_DIR / "sweet-wave-2"
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "olive-yogurt-6"
 
 if __name__ == "__main__":
     datamodule_cls = Conll2003DataModule

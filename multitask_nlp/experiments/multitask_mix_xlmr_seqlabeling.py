@@ -40,8 +40,8 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = False
-ckpt_path = CHECKPOINTS_DIR / "zesty-planet-5"
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "absurd-eon-3"
 
 
 def run_experiments():

@@ -22,8 +22,8 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 os.environ["WANDB_START_METHOD"] = "thread"
 
 RANDOM_SEED = 2023
-analyze_latest_model = False
-ckpt_path = CHECKPOINTS_DIR / "smooth-serenity-10"
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "rare-vortex-3"
 
 if __name__ == "__main__":
     datamodule_cls = WreteEntailmentUiDataModule
