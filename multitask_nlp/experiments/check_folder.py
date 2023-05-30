@@ -1,4 +1,6 @@
 import os
+from multitask_nlp.utils.file_loading import write_as_txt_file
+
 
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 
@@ -11,3 +13,9 @@ if __name__ == "__main__":
         isExist = os.path.exists(path)
         if isExist:
             print("exists:", model_name)
+
+        checkpoints = os.listdir(CHECKPOINTS_DIR)
+        print("List of checkpoints: ")
+        write_as_txt_file(checkpoints, f"Checkpoints")  
+
+
