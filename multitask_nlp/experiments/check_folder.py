@@ -2,7 +2,7 @@ import os
 
 from multitask_nlp.settings import CHECKPOINTS_DIR, LOGS_DIR
 
-model_names = ["magic-brook-21", "serene-bee-6", "icy-wildflower-25"]
+model_names = ["magic-brook-21", "serene-bee-6", "icy-wildflower-25", "robust-salad-1"]
 
 
 if __name__ == "__main__":
