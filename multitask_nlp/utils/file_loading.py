@@ -19,7 +19,7 @@ def write_as_txt_file(txt="", file_name="", add_datetime=True):
     if file_name is None:
         file_name = f"experiment-{date.today()}"
     if add_datetime:
-        current_datetime = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        current_datetime = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
         txt.append(f"datetime: {current_datetime}")
         file_name = f"{file_name}-{current_datetime}"
     
