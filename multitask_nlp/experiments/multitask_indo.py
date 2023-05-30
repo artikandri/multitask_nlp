@@ -48,7 +48,7 @@ ckpt_path = CHECKPOINTS_DIR / "icy-wildflower-25"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['roberta' ]
+    model_names = ['labse' ]
     rep_num = 1 if analyze_latest_model else 3
 
     loss_args_list = [(False, None)]
