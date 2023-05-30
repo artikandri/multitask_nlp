@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from itertools import product
 from typing import List
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import torch
 import pytorch_lightning as pl
@@ -43,8 +43,8 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = False
-ckpt_path = CHECKPOINTS_DIR / "magic-brook-21"
+analyze_latest_model = True
+ckpt_path = CHECKPOINTS_DIR / "deft-fog-30"
 
 def run_experiments():
     model_types = ['multitask_transformer']
