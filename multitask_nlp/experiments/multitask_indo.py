@@ -44,7 +44,7 @@ RANDOM_SEED = 2023
 
 stl_experiments = False
 analyze_latest_model = True
-ckpt_path = CHECKPOINTS_DIR / "rosy-wood-22"
+ckpt_path = CHECKPOINTS_DIR / "magic-brook-21"
 
 def run_experiments():
     model_types = ['multitask_transformer']
