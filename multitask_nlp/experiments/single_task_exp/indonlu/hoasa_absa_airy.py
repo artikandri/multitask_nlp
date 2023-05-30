@@ -6,7 +6,7 @@ from typing import List
 import numpy as np
 import pytorch_lightning as pl
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 import torch
