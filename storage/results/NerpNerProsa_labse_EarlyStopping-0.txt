@@ -1,0 +1,9 @@
+NerpNerProsa_labse_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/hardy-snowball-7
+model size: 1796.48344039917
+number of params: 470935307
+number of trainable params: 470935307
+average inference time: 0.06333888791642099
+nr of epochs: 10
+nr of rep: 0
+datetime: 30/05/2023 19:48:50

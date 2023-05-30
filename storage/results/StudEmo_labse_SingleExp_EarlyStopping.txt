@@ -1,0 +1,8 @@
+StudEmo_labse_SingleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/deft-snowball-6
+model size: 1796.5773124694824
+number of params: 470959915
+number of trainable params: 470959915
+average inference time: 0.13728753993822182
+nr of epochs: 10
+datetime: 30/05/2023 19:46:57

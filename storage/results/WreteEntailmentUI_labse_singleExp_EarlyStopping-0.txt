@@ -1,0 +1,9 @@
+WreteEntailmentUI_labse_singleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/rare-vortex-3
+model size: 1796.4570388793945
+number of params: 470928386
+number of trainable params: 470928386
+average inference time: 1.9895828666687012
+nr of epochs: 10
+nr of rep: 0
+datetime: 30/05/2023 19:51:13

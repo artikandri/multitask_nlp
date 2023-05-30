@@ -1,0 +1,9 @@
+IndonesianEmotion_labse_singleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/silvery-shape-1
+model size: 1796.4863739013672
+number of params: 470936076
+number of trainable params: 470936076
+average inference time: 0.0730064366280616
+nr of epochs: 10
+nr of rep: 0
+datetime: 30/05/2023 20:08:11

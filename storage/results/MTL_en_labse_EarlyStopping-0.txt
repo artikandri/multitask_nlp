@@ -1,0 +1,9 @@
+MTL_en_labse_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/flowing-river-5
+model size: 1796.7767906188965
+number of params: 471012207
+number of trainable params: 471012207
+average inference time: 0.03242231673301265
+nr of epochs: 10
+nr of rep: 0
+datetime: 30/05/2023 20:17:15

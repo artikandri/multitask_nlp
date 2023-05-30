@@ -1,0 +1,9 @@
+EmotEmotionTwitter_labse_singleExp_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/bright-vortex-3
+model size: 1796.4805068969727
+number of params: 470934538
+number of trainable params: 470934538
+average inference time: 1.4331311514718192
+nr of epochs: 10
+nr of rep: 0
+datetime: 30/05/2023 19:56:19

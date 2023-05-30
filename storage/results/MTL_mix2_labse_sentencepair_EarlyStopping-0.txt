@@ -1,0 +1,9 @@
+MTL_mix2_labse_sentencepair_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/dashing-lake-3
+model size: 1796.4658393859863
+number of params: 470930693
+number of trainable params: 470930693
+average inference time: 0.02681840453940028
+nr of epochs: 10
+nr of rep: 0
+datetime: 30/05/2023 20:30:28

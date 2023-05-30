@@ -1,0 +1,9 @@
+MTL_mix2_rev2_labse_emocls_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/drawn-wave-8
+model size: 1796.8061256408691
+number of params: 471019897
+number of trainable params: 471019897
+average inference time: 0.03149891033688106
+nr of epochs: 10
+nr of rep: 0
+datetime: 30/05/2023 20:22:40

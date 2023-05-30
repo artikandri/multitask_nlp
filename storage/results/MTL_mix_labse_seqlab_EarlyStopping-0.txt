@@ -1,0 +1,9 @@
+MTL_mix_labse_seqlab_EarlyStopping
+ckpt_path: /mnt/big_two/acandri/multitask_nlp/storage/checkpoints/absurd-eon-3
+model size: 1796.5098419189453
+number of params: 470942228
+number of trainable params: 470942228
+average inference time: 0.040355566101414816
+nr of epochs: 10
+nr of rep: 0
+datetime: 30/05/2023 20:28:03
