@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from itertools import product
 from typing import List
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import torch
 import pytorch_lightning as pl
@@ -114,7 +114,7 @@ def run_experiments():
             product(model_types, model_names, loss_args_list):
         model_cls = models_dict[model_type]
 
-        wandb_project_name = f'MTL_rev3_Indo_{model_name}_EarlyStopping'
+        wandb_project_name = f'MTL_rev3_Indo_{model_name}_ptt_indoemo_EarlyStopping'
 
 
         uncertainty_loss, scaling_type = loss_args
