@@ -3,7 +3,7 @@ from copy import copy
 from itertools import product
 from typing import List
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 import torch
 import pytorch_lightning as pl

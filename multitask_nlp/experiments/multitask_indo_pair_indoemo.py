@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 from itertools import product
 from typing import List
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 import torch
 import pytorch_lightning as pl
@@ -48,7 +48,7 @@ ckpt_path = CHECKPOINTS_DIR / "icy-wildflower-25"
 
 def run_experiments():
     model_types = ['multitask_transformer']
-    model_names = ['roberta' ]
+    model_names = ['labse' ]
     rep_num = 1 if analyze_latest_model else 3
 
     loss_args_list = [(False, None)]
@@ -69,7 +69,7 @@ def run_experiments():
         ValidDatasetResetter()
     ]
 
-    steps_in_epoch_list = [6500]
+    steps_in_epoch_list = [5500]
     total_steps_list = [s * epochs for s in steps_in_epoch_list]
 
     # proportional sampling arguments

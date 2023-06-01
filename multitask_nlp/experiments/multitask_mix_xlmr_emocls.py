@@ -3,7 +3,7 @@ from copy import copy
 from itertools import product
 from typing import List
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import torch
 import pytorch_lightning as pl
@@ -40,7 +40,7 @@ use_cuda = True
 RANDOM_SEED = 2023
 
 stl_experiments = False
-analyze_latest_model = True
+analyze_latest_model = False
 ckpt_path = CHECKPOINTS_DIR / "drawn-wave-8"
 
 
