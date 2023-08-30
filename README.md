@@ -1,5 +1,6 @@
 # Multitask NLP
 
+Multitask model built with PyTorch 
 
 ## Configure environment
 Install requirements
